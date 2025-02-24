@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 
@@ -33,6 +34,7 @@ public class Portfolio {
     @OneToOne(mappedBy = "portfolio")
     private ServiceProvider serviceProvider;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<PortfolioItem> items;
 

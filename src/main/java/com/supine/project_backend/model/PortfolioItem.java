@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "portfolio_items")
 public class PortfolioItem {
@@ -14,6 +16,7 @@ public class PortfolioItem {
     private Long id;
 
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "portfolio_id")
     private Portfolio portfolio;

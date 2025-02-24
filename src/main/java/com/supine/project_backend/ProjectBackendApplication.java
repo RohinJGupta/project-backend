@@ -11,3 +11,8 @@ public class ProjectBackendApplication {
 	}
 
 }
+
+
+
+//notes
+//may need to use dto for updates since we are not passing in all fields, just certain ones that are allowed by the UI

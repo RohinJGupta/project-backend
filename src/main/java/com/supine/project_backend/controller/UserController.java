@@ -18,6 +18,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
+    //will need to seperate /api/users/me and /api/users/get-user/{id} using auth first and path var second
+
     @PostMapping("/api/users/create-user")
     public User createUser(@Valid @RequestBody User user) {
         return userService.createUser(user);

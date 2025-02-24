@@ -28,7 +28,7 @@ public class ServiceProviderService {
 
     // }
 
-    public ServiceProvider updateServiceProvider(Long user_id, ServiceProvider sp) {
+    public ServiceProvider getServiceProvider(Long user_id) {
         User existingUser = userRepository.findById(user_id).orElse(null);
 
         if(existingUser == null) {
@@ -36,6 +36,13 @@ public class ServiceProviderService {
         }
 
         ServiceProvider existingSP = serviceProviderRepository.findById(existingUser.getServiceProvider().getId()).orElse(null);
+        return existingSP;
+    }
+
+    public ServiceProvider updateServiceProvider(Long user_id, ServiceProvider sp) {
+
+
+        ServiceProvider existingSP = getServiceProvider(user_id);
         if(existingSP != null) {
             existingSP.setBusinessName(sp.getBusinessName());
             existingSP.setBiography(sp.getBiography());
