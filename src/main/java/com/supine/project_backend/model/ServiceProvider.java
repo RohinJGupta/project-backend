@@ -1,0 +1,136 @@
+package com.supine.project_backend.model;
+
+
+import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+
+import java.time.LocalDateTime;
+
+import org.locationtech.jts.geom.Point;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+@Entity
+@Table(name = "service_providers")
+public class ServiceProvider {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "portfolio_id", referencedColumnName = "id")
+    private Portfolio portfolio;
+
+    @JsonBackReference
+    @OneToOne(mappedBy = "serviceProvider")
+    private User user;
+
+    @Column(nullable = true)
+    private String businessName;
+
+    private String biography;
+
+    private String certifications;
+
+    private boolean backgroundCheck;
+
+     
+
+    private Point location;
+    //Add Range for Providers - Default 100km...
+
+    private String availability;
+
+    private LocalDateTime lastActive;
+
+
+
+    //getters
+
+    public Long getId() {
+        return id;
+    }                   
+
+    public Portfolio getPortfolio() {
+        return portfolio;
+    }
+
+    public User getUser() {
+        return user;
+    }
+    
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public String getCertifications() {
+        return certifications;
+    }
+
+    public boolean isBackgroundCheck() {
+        return backgroundCheck;
+    }
+
+    public Point getLocation() {
+        return location;
+    }
+
+    public String getAvailability() {
+        return availability;
+    }
+
+    public LocalDateTime getLastActive() {
+        return lastActive;
+    }
+
+    //setters
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    public void setPortfolio(Portfolio portfolio) {
+        this.portfolio = portfolio;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }   
+
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }   
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }          
+
+    public void setCertifications(String certifications) {
+        this.certifications = certifications;
+    }   
+
+    public void setBackgroundCheck(boolean backgroundCheck) {
+        this.backgroundCheck = backgroundCheck;
+    }   
+
+    public void setLocation(Point location) {
+        this.location = location;
+    }   
+
+    public void setAvailability(String availability) {
+        this.availability = availability;
+    }   
+
+    public void setLastActive(LocalDateTime lastActive) {
+        this.lastActive = lastActive;
+    }   
+    
+}
