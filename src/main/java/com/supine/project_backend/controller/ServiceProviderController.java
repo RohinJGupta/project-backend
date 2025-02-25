@@ -30,6 +30,7 @@ public class ServiceProviderController {
 
     @GetMapping("/api/service-providers/get-sp/{user_id}")
     public ServiceProvider getServiceProvider(@PathVariable Long user_id) {
+        //if null return null
         return serviceProviderService.getServiceProvider(user_id);
     }
 
