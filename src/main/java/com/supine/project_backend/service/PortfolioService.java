@@ -11,7 +11,7 @@ import com.supine.project_backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 
 import com.supine.project_backend.model.PortfolioItem;
-import com.supine.project_backend.model.ServiceProvider;
+
 
 import java.util.List;
 

@@ -1,13 +1,10 @@
 package com.supine.project_backend.service;
 
-import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.supine.project_backend.model.Portfolio;
 import com.supine.project_backend.model.PortfolioItem;
-import com.supine.project_backend.model.User;
 import com.supine.project_backend.repository.PortfolioItemRepository;
 import com.supine.project_backend.repository.UserRepository;
 
@@ -36,9 +33,8 @@ public class PortfolioItemService {
         PortfolioItem existingPortfolioItem = portfolioItemRepository.findById(item_id).orElse(null);
         if (existingPortfolioItem == null) {
             return null;
-
         }   
-        
+
         existingPortfolioItem.setTitle(newItem.getTitle());
         existingPortfolioItem.setDescription(newItem.getDescription());
         existingPortfolioItem.setProjectCost(newItem.getProjectCost());
