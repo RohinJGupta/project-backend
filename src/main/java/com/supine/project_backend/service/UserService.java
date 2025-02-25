@@ -44,8 +44,8 @@ public class UserService {
          
         }
 
-        user.setCreatedAt(Instant.now());
-        user.setUpdatedAt(Instant.now());
+        // user.setCreatedAt(Instant.now());
+        // user.setUpdatedAt(Instant.now());
         return userRepository.save(user);
     }
 
@@ -84,6 +84,7 @@ public class UserService {
         return null;
     }
 
+    @Transactional
     public boolean deleteUser(Long id) {
         User user = userRepository.findById(id).orElse(null);
         if (user != null) {

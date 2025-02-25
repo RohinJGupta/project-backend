@@ -4,9 +4,11 @@ package com.supine.project_backend.model;
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
 
-
+import java.time.Instant;
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.locationtech.jts.geom.Point;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -46,6 +48,12 @@ public class ServiceProvider {
     private String availability;
 
     private LocalDateTime lastActive;
+
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @UpdateTimestamp
+    private Instant updatedAt;
 
 
 
@@ -91,6 +99,14 @@ public class ServiceProvider {
         return lastActive;
     }
 
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
     //setters
 
     public void setId(Long id) {
@@ -132,5 +148,14 @@ public class ServiceProvider {
     public void setLastActive(LocalDateTime lastActive) {
         this.lastActive = lastActive;
     }   
+    
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
     
 }

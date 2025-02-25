@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -25,11 +28,14 @@ public class User implements UserDetails {
     private String passwordHash;
     private String firstName;
     private String lastName;
+
+    @CreationTimestamp
     private Instant createdAt;
+    
+    @UpdateTimestamp
     private Instant updatedAt;
+
     private boolean isVerified;
-
-
     private boolean isProvider;
 
     //location in profile class
@@ -126,12 +132,7 @@ public class User implements UserDetails {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
-    }   
-
-    @PreUpdate
-    public void onUpdate() {
-        this.updatedAt = Instant.now();
-    }   
+    }    
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;

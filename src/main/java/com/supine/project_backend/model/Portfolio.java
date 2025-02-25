@@ -2,7 +2,7 @@ package com.supine.project_backend.model;
 
 
 import java.sql.Date;
-import java.util.ArrayList;
+import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -10,6 +10,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.*;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 
 
@@ -26,9 +29,18 @@ public class Portfolio {
 
     private String overview;
 
-    private Date createdAt;
+    
+    @CreationTimestamp
+    private Instant createdAt;
 
-    private Date updatedAt;
+    @UpdateTimestamp
+    private Instant updatedAt;
+
+
+
+
+    
+
 
     @JsonBackReference
     @OneToOne(mappedBy = "portfolio")
@@ -64,13 +76,14 @@ public class Portfolio {
         return overview;
     }   
 
-    public Date getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
-    }   
-    
-    public Date getUpdatedAt() {
+    }
+
+    public Instant getUpdatedAt() {
         return updatedAt;
-    }   
+    }
+
 
     //setters   
 
@@ -94,13 +107,13 @@ public class Portfolio {
         this.overview = overview;
     }   
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
-    }   
+    }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
-    }              
+    }            
     
     
 }

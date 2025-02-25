@@ -24,25 +24,23 @@ public class ServiceProviderService {
         return serviceProviderRepository.save(serviceProvider);
     }
 
-    // public ServiceProvider createServiceProvider() {
 
-    // }
-
-    public ServiceProvider getServiceProvider(Long user_id) {
+    private ServiceProvider getServiceProviderFromUserId(Long user_id) {
         User existingUser = userRepository.findById(user_id).orElse(null);
 
         if(existingUser == null) {
             return null;
         }
 
-        ServiceProvider existingSP = serviceProviderRepository.findById(existingUser.getServiceProvider().getId()).orElse(null);
+        // ServiceProvider existingSP = serviceProviderRepository.findById(existingUser.getServiceProvider().getId()).orElse(null);
+        ServiceProvider existingSP = existingUser.getServiceProvider();
         return existingSP;
     }
 
     public ServiceProvider updateServiceProvider(Long user_id, ServiceProvider sp) {
 
 
-        ServiceProvider existingSP = getServiceProvider(user_id);
+        ServiceProvider existingSP = getServiceProviderFromUserId(user_id);
         if(existingSP != null) {
             existingSP.setBusinessName(sp.getBusinessName());
             existingSP.setBiography(sp.getBiography());
@@ -54,6 +52,11 @@ public class ServiceProviderService {
         }
         
         return null;
+    }
+
+    //deal with null in controller
+    public ServiceProvider getServiceProvider(Long user_id) {
+        return getServiceProviderFromUserId(user_id);
     }
 
     //public ServiceProvider findByLocation() {
