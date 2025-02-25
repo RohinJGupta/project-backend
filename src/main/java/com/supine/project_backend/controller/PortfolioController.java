@@ -33,12 +33,12 @@ public class PortfolioController {
         return portfolioService.getAllItems(user_id);
     }
 
-    //move to portfolio item
-    // @PostMapping("/api/portfolios/add-item/{user_id}")
-    // public Portfolio addPortfolioItem(@PathVariable Long user_id, @Valid @RequestBody PortfolioItem item) {
-    //     // Implement logic to add a new portfolio item
-    //     return portfolioService.addPortfolioItem(user_id, item);
-    // }
+
+    @PostMapping("/api/portfolios/add-item/{user_id}")
+    public Portfolio addPortfolioItem(@PathVariable Long user_id, @Valid @RequestBody PortfolioItem portfolioItem) {
+        // Implement logic to add a new portfolio item
+        return portfolioService.addPortfolioItem(user_id, portfolioItem);
+    }
 
     @PutMapping("/api/portfolios/update-portfolio/{user_id}")
     public Portfolio updatePortfolio(@PathVariable Long user_id, @Valid @RequestBody Portfolio portfolio) {

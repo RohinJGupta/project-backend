@@ -34,16 +34,18 @@ public class ServiceProviderController {
         return serviceProviderService.getServiceProvider(user_id);
     }
 
+    //change to response entity <void> later
     @PutMapping("/api/service-providers/update-sp/{user_id}")
-    public ResponseEntity<Void> updateServiceProvider(@PathVariable Long user_id, @Valid @RequestBody ServiceProvider sp) {
-        ServiceProvider updatedSP = serviceProviderService.updateServiceProvider(user_id, sp);
+    public ServiceProvider updateServiceProvider(@PathVariable Long user_id, @Valid @RequestBody ServiceProvider sp) {
+        return serviceProviderService.updateServiceProvider(user_id, sp);
+        // ServiceProvider updatedSP = serviceProviderService.updateServiceProvider(user_id, sp);
 
-        if(updatedSP != null) {
-            return ResponseEntity.status(200).build();
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
+        // if(updatedSP != null) {
+        //     return ResponseEntity.status(200).build();
+        // }
+        // else {
+        //     return ResponseEntity.notFound().build();
+        // }
     }
 
 

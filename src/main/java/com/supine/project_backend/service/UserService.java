@@ -84,6 +84,7 @@ public class UserService {
         return null;
     }
 
+    @Transactional
     public boolean deleteUser(Long id) {
         User user = userRepository.findById(id).orElse(null);
         if (user != null) {

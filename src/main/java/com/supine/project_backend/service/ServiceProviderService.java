@@ -24,9 +24,6 @@ public class ServiceProviderService {
         return serviceProviderRepository.save(serviceProvider);
     }
 
-    // public ServiceProvider createServiceProvider() {
-
-    // }
 
     private ServiceProvider getServiceProviderFromUserId(Long user_id) {
         User existingUser = userRepository.findById(user_id).orElse(null);
@@ -35,7 +32,8 @@ public class ServiceProviderService {
             return null;
         }
 
-        ServiceProvider existingSP = serviceProviderRepository.findById(existingUser.getServiceProvider().getId()).orElse(null);
+        // ServiceProvider existingSP = serviceProviderRepository.findById(existingUser.getServiceProvider().getId()).orElse(null);
+        ServiceProvider existingSP = existingUser.getServiceProvider();
         return existingSP;
     }
 
@@ -56,6 +54,7 @@ public class ServiceProviderService {
         return null;
     }
 
+    //deal with null in controller
     public ServiceProvider getServiceProvider(Long user_id) {
         return getServiceProviderFromUserId(user_id);
     }

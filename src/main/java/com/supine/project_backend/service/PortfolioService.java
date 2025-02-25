@@ -7,7 +7,12 @@ import com.supine.project_backend.model.Portfolio;
 import com.supine.project_backend.model.User;
 import com.supine.project_backend.repository.PortfolioRepository;
 import com.supine.project_backend.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
+
 import com.supine.project_backend.model.PortfolioItem;
+import com.supine.project_backend.model.ServiceProvider;
+
 import java.util.List;
 
 
@@ -18,6 +23,12 @@ public class PortfolioService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Transactional
+      public Portfolio savePortfolio(Portfolio portfolio) {
+        return portfolioRepository.save(portfolio);
+    }
+
 
     private Portfolio getPortfolioFromUserId(Long user_id) {
         User existingUser = userRepository.findById(user_id).orElse(null);
@@ -36,6 +47,9 @@ public class PortfolioService {
 
     public List<PortfolioItem> getAllItems(Long user_id) {
         Portfolio p = getPortfolioFromUserId(user_id);
+        if(p == null) {
+            return null;
+        }
         return p.getItems();
     }
 
@@ -51,17 +65,23 @@ public class PortfolioService {
 
     }
 
-    //move to portfolioitem
-    // public Portfolio addPortfolioItem(Long user_id, PortfolioItem item) {
-    //     User existingUser = userRepository.findById(user_id).orElse(null);
-    //     Portfolio p = getPortfolioFromUserId(user_id);
+    
+    public Portfolio addPortfolioItem(Long user_id, PortfolioItem item) {
+        User existingUser = userRepository.findById(user_id).orElse(null);
 
-    //     if(existingUser == null || p == null) {
-    //         return null;
-    //     }
+        if(existingUser == null) {
+            return null;
+        }
 
-    //     p.getItems().add(item);
-    //     return portfolioRepository.save(p);
-    // }
+        Portfolio p = getPortfolioFromUserId(user_id);
+
+        if(p == null) {
+            return null;
+        }
+
+        p.getItems().add(item);
+        return portfolioRepository.save(p);
+    }
+
 
 }
