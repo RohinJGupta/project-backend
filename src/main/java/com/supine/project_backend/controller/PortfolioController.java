@@ -30,7 +30,6 @@ public class PortfolioController {
 
     @GetMapping("/api/portfolios/get-all-items/{user_id}")
     public List<PortfolioItem> getAllItems(@PathVariable Long user_id) {
-        // Implement logic to retrieve all portfolio items
         return portfolioService.getAllItems(user_id);
     }
 
@@ -41,9 +40,9 @@ public class PortfolioController {
     //     return portfolioService.addPortfolioItem(user_id, item);
     // }
 
-    @PutMapping("updateportfolio")
-    public void updatePortfolio(@RequestBody PortfolioItem item) {
+    @PutMapping("/api/portfolios/update-portfolio/{user_id}")
+    public Portfolio updatePortfolio(@PathVariable Long user_id, @Valid @RequestBody Portfolio portfolio) {
         // Implement logic to update an existing portfolio item
-        portfolioService.updatePortfolio(item);
+        return portfolioService.updatePortfolio(user_id, portfolio);
     }
 }

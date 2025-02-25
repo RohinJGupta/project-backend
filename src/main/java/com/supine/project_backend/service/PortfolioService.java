@@ -5,19 +5,16 @@ import org.springframework.stereotype.Service;
 
 import com.supine.project_backend.model.Portfolio;
 import com.supine.project_backend.model.User;
-import com.supine.project_backend.repository.PortfolioItemRepository;
 import com.supine.project_backend.repository.PortfolioRepository;
 import com.supine.project_backend.repository.UserRepository;
 import com.supine.project_backend.model.PortfolioItem;
 import java.util.List;
 
+
 @Service
 public class PortfolioService {
     @Autowired
     private PortfolioRepository portfolioRepository;
-
-    @Autowired
-    private PortfolioItemRepository portfolioItemRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -40,6 +37,18 @@ public class PortfolioService {
     public List<PortfolioItem> getAllItems(Long user_id) {
         Portfolio p = getPortfolioFromUserId(user_id);
         return p.getItems();
+    }
+
+    public Portfolio updatePortfolio(Long user_id, Portfolio newPortfolio) {
+        Portfolio existingPortfolio = getPortfolioFromUserId(user_id);
+        if (existingPortfolio != null) {
+            existingPortfolio.setTitle(newPortfolio.getTitle());
+            existingPortfolio.setOverview(newPortfolio.getOverview());
+            return portfolioRepository.save(existingPortfolio);
+        }
+
+        return null;
+
     }
 
     //move to portfolioitem

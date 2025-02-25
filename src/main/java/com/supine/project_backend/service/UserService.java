@@ -44,8 +44,8 @@ public class UserService {
          
         }
 
-        user.setCreatedAt(Instant.now());
-        user.setUpdatedAt(Instant.now());
+        // user.setCreatedAt(Instant.now());
+        // user.setUpdatedAt(Instant.now());
         return userRepository.save(user);
     }
 

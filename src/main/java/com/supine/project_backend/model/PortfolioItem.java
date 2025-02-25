@@ -3,8 +3,11 @@ package com.supine.project_backend.model;
 
 import jakarta.persistence.*;
 
-
+import java.time.Instant;
 import java.time.LocalDate;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -34,6 +37,13 @@ public class PortfolioItem {
     private boolean isFeatured;
 
     private LocalDate projectDate;
+
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @UpdateTimestamp
+    private Instant updatedAt;
+    
 
     //TODO: Add Support for Media
 
@@ -75,6 +85,14 @@ public class PortfolioItem {
         return projectDate;
     }
 
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
     //setters
 
     public void setId(Long id) {
@@ -112,7 +130,15 @@ public class PortfolioItem {
     public void setProjectDate(LocalDate projectDate) {
         this.projectDate = projectDate;
     }
+    
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
 
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }            
+    
 
     
 }
