@@ -13,6 +13,7 @@ import com.supine.project_backend.service.PortfolioService;
 
 import jakarta.validation.Valid;
 
+import com.supine.project_backend.dto.NewPortfolioItemDTO;
 import com.supine.project_backend.dto.PortfolioDTO;
 import com.supine.project_backend.dto.PortfolioItemDTO;
 import com.supine.project_backend.dto.ServiceProviderDTO;
@@ -63,7 +64,7 @@ public class PortfolioController {
 
 
     @PostMapping("/api/portfolios/{user_id}")
-    public ResponseEntity<PortfolioDTO> addPortfolioItem(@PathVariable Long user_id, @Valid @RequestBody PortfolioItemDTO portfolioItemDTO) {
+    public ResponseEntity<PortfolioDTO> addPortfolioItem(@PathVariable Long user_id, @Valid @RequestBody NewPortfolioItemDTO portfolioItemDTO) {
         PortfolioDTO portfolioDTO = portfolioService.addPortfolioItem(user_id, portfolioItemDTO);
         if(portfolioDTO != null) {
             return ResponseEntity.created(URI.create("/api/portfolios/" + user_id + "/items/" + portfolioDTO.getId())).body(portfolioDTO);

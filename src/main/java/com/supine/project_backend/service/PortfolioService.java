@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.supine.project_backend.dto.NewPortfolioItemDTO;
 import com.supine.project_backend.dto.PortfolioDTO;
 import com.supine.project_backend.dto.PortfolioItemDTO;
 import com.supine.project_backend.model.Portfolio;
@@ -74,13 +75,14 @@ public class PortfolioService {
         return null;
     }
 
-    public PortfolioDTO addPortfolioItem(Long user_id, PortfolioItemDTO item) {
+    public PortfolioDTO addPortfolioItem(Long user_id, NewPortfolioItemDTO item) {
 
         Portfolio p = getPortfolioFromUserId(user_id);
 
         if(p == null) {
             return null;
         }
+
 
         PortfolioItem newItem = new PortfolioItem();
         modelMapper.map(item, newItem); 

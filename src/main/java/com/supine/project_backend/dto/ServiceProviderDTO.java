@@ -20,7 +20,9 @@ public class ServiceProviderDTO {
 
     // Getters and Setters
 
-
+    public Long getId() {
+        return id;
+    }
 
     public String getBusinessName() {
         return businessName;

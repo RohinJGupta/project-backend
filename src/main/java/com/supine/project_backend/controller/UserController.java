@@ -2,13 +2,14 @@ package com.supine.project_backend.controller;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.supine.project_backend.model.User;
+import com.supine.project_backend.dto.NewUserDTO;
+import com.supine.project_backend.dto.UserDTO;
 import com.supine.project_backend.service.UserService;
 
 
 import jakarta.validation.Valid;
 
-
+import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,25 +20,52 @@ public class UserController {
     private UserService userService;
 
 
-    //will need to seperate /api/users/me and /api/users/get-user/{id} using auth first and path var second
 
-    //201 for post
-    @PostMapping("/api/users/create-user")
-    public User createUser(@Valid @RequestBody User user) {
-        return userService.createUser(user);
+    @GetMapping("/api/users/me")
+    public ResponseEntity<UserDTO> getMe() {
+        //TODO - Along with other "me" APIs - Might only be Get
+        return null;
+    }
+       
+
+    @GetMapping("/api/users/{id}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
+        UserDTO res = userService.getUser(id);
+        if(res != null) {
+            return ResponseEntity.ok().body(res);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @PutMapping("/api/users/update-user/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        return userService.updateUser(id, user);
+
+    @PostMapping("/api/users")
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody NewUserDTO userDTO) {
+        UserDTO res = userService.createUser(userDTO);
+        if(res != null) {
+            return ResponseEntity.created(URI.create("/api/users/" + res.getId())).body(res);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @GetMapping("/api/users/get-user/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
+
+
+
+    @PutMapping("/api/users/{id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO) {
+        UserDTO res = userService.updateUser(id, userDTO);
+        if(res != null) {
+            return ResponseEntity.ok().body(res);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @DeleteMapping("/api/users/delete-user/{id}")
+    @DeleteMapping("/api/users/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         boolean isDeleted = userService.deleteUser(id);
         
@@ -50,3 +78,6 @@ public class UserController {
     }
 
 }
+
+
+    //will need to seperate /api/users/me and /api/users/get-user/{id} using auth first and path var second

@@ -42,7 +42,6 @@ public class ServiceProviderController {
         }
     }
 
-
     @PutMapping("/api/providers/{user_id}")
     public ResponseEntity<ServiceProviderDTO> updateServiceProvider(@PathVariable Long user_id, @Valid @RequestBody ServiceProviderDTO spDTO) {
         ServiceProviderDTO res = serviceProviderService.updateServiceProvider(user_id, spDTO);

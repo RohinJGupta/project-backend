@@ -10,6 +10,7 @@ import com.supine.project_backend.model.User;
 import com.supine.project_backend.repository.UserRepository;
 import com.supine.project_backend.model.ServiceProvider;
 import com.supine.project_backend.model.Portfolio;
+import com.supine.project_backend.dto.NewUserDTO;
 import com.supine.project_backend.dto.UserDTO;
 
 
@@ -29,9 +30,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User createUser(User user) {
-        if(!user.isProvider()) {
-            user.setServiceProvider(null);
+    public UserDTO createUser(NewUserDTO userDTO) {
+        User newUser = new User();
+
+        modelMapper.map(userDTO, newUser); 
+        
+        if(!newUser.isProvider()) {
+            newUser.setServiceProvider(null);
            
         }
         else {
@@ -39,8 +44,8 @@ public class UserService {
             Portfolio portfolio = new Portfolio();
             
             // Set up bidirectional relationships
-            serviceProvider.setUser(user);
-            user.setServiceProvider(serviceProvider);
+            serviceProvider.setUser(newUser);
+            newUser.setServiceProvider(serviceProvider);
             
             portfolio.setServiceProvider(serviceProvider);
             serviceProvider.setPortfolio(portfolio);
@@ -49,23 +54,30 @@ public class UserService {
          
         }
 
-        // user.setCreatedAt(Instant.now());
-        // user.setUpdatedAt(Instant.now());
-        return userRepository.save(user);
+
+        return modelMapper.map(userRepository.save(newUser), UserDTO.class);
     }
 
     
-    public UserDTO getUserById(Long id) {
+    private User getUserById(Long id) {
         User user = userRepository.findById(id).orElse(null);
-        return modelMapper.map(user, UserDTO.class);
+        return user;
+    }
+
+    public UserDTO getUser(Long id) {
+        User existingUser = getUserById(id);
+        if(existingUser != null ) {
+            return modelMapper.map(existingUser, UserDTO.class);
+        }
+        return null;   
     }
 
    
-    public User updateUser(Long id, UserDTO userDTO) {
+    public UserDTO updateUser(Long id, UserDTO userDTO) {
         User existingUser = userRepository.findById(id).orElse(null);
         if (existingUser != null) {
             modelMapper.map(userDTO, existingUser);
-            return userRepository.save(existingUser);
+            return modelMapper.map(userRepository.save(existingUser), UserDTO.class);
         }
         return null;
     }

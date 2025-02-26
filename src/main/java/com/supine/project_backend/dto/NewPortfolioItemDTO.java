@@ -3,9 +3,9 @@ package com.supine.project_backend.dto;
 
 import java.time.LocalDate;
 
-public class PortfolioItemDTO {
+public class NewPortfolioItemDTO {
 
-    private Long id;
+
     private String title;
     private String description;
     private float projectCost;
@@ -16,10 +16,6 @@ public class PortfolioItemDTO {
 
 
     // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
 
     public String getTitle() {
         return title;
