@@ -41,31 +41,36 @@ public class ServiceProviderService {
         return existingSP;
     }
 
+
     public ServiceProviderDTO getServiceProvider(Long user_id) {
-        User existingUser = userRepository.findById(user_id).orElse(null);
-        if (existingUser == null) {
-            return null;
-        }
-        ServiceProvider existingSP = existingUser.getServiceProvider();
-        return modelMapper.map(existingSP, ServiceProviderDTO.class);
+        return modelMapper.map(getServiceProviderFromUserId(user_id), ServiceProviderDTO.class);
     }
 
-    public ServiceProvider updateServiceProvider(Long user_id, ServiceProviderDTO spDTO) {
+  
+    public ServiceProviderDTO updateServiceProvider(Long user_id, ServiceProviderDTO spDTO) {
         ServiceProvider existingSP = getServiceProviderFromUserId(user_id);
         if (existingSP != null) {
             modelMapper.map(spDTO, existingSP);
-            return serviceProviderRepository.save(existingSP);
+            return modelMapper.map(serviceProviderRepository.save(existingSP), ServiceProviderDTO.class);
         }
         return null;
     }
 
-    //deal with null in controller
-    public ServiceProvider getServiceProvider(Long user_id) {
-        return getServiceProviderFromUserId(user_id);
-    }
+
+
+
 
     //public ServiceProvider findByLocation() {
 
     //}
+
+      // public ServiceProviderDTO getServiceProvider(Long user_id) {
+    //     User existingUser = userRepository.findById(user_id).orElse(null);
+    //     if (existingUser == null) {
+    //         return null;
+    //     }
+    //     ServiceProvider existingSP = existingUser.getServiceProvider();
+   
+    // }
     
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.supine.project_backend.dto.PortfolioItemDTO;
-import com.supine.project_backend.model.PortfolioItem;
 import com.supine.project_backend.service.PortfolioItemService;
 
 import jakarta.validation.Valid;
