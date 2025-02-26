@@ -4,6 +4,7 @@ package com.supine.project_backend.dto;
 
 public class UserDTO {
 
+    private Long id;
     private String phone;
     private String email;
     private String passwordHash;

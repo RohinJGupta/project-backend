@@ -1,6 +1,7 @@
 package com.supine.project_backend.service;
 
 import java.util.ArrayList;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +10,7 @@ import com.supine.project_backend.model.User;
 import com.supine.project_backend.repository.UserRepository;
 import com.supine.project_backend.model.ServiceProvider;
 import com.supine.project_backend.model.Portfolio;
+import com.supine.project_backend.dto.UserDTO;
 
 
 @Service
@@ -18,6 +20,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @Transactional
     public User saveUser(User user) {
@@ -50,37 +55,18 @@ public class UserService {
     }
 
     
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
+    public UserDTO getUserById(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        return modelMapper.map(user, UserDTO.class);
     }
 
    
-    public User updateUser(Long id, User user) {
+    public User updateUser(Long id, UserDTO userDTO) {
         User existingUser = userRepository.findById(id).orElse(null);
         if (existingUser != null) {
-            existingUser.setFirstName(user.getFirstName());
-            existingUser.setLastName(user.getLastName());
-            existingUser.setEmail(user.getUsername()); 
-            existingUser.setIsProvider(user.isProvider());
-            if(user.isProvider() && existingUser.getServiceProvider() == null) {
-                ServiceProvider serviceProvider = new ServiceProvider();
-                Portfolio portfolio = new Portfolio();
-    
-                existingUser.setServiceProvider(serviceProvider);
-                serviceProvider.setUser(existingUser);
-    
-                serviceProvider.setPortfolio(portfolio);
-                portfolio.setServiceProvider(serviceProvider);
-    
-                portfolio.setItems(new ArrayList<>());
-            }
-            else if (!user.isProvider()){
-                existingUser.setServiceProvider(null);
-            }
-            existingUser.setPhone(user.getPhone());
+            modelMapper.map(userDTO, existingUser);
             return userRepository.save(existingUser);
         }
-    
         return null;
     }
 

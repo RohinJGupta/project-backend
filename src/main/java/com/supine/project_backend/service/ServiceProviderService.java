@@ -1,9 +1,10 @@
 package com.supine.project_backend.service;
 
-
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.supine.project_backend.dto.ServiceProviderDTO;
 import com.supine.project_backend.model.ServiceProvider;
 import com.supine.project_backend.model.User;
 import com.supine.project_backend.repository.ServiceProviderRepository;
@@ -19,11 +20,14 @@ public class ServiceProviderService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     @Transactional
-    public ServiceProvider saveServiceProvider(ServiceProvider serviceProvider) {
+    public ServiceProvider saveServiceProvider(ServiceProviderDTO serviceProviderDTO) {
+        ServiceProvider serviceProvider = modelMapper.map(serviceProviderDTO, ServiceProvider.class);
         return serviceProviderRepository.save(serviceProvider);
     }
-
 
     private ServiceProvider getServiceProviderFromUserId(Long user_id) {
         User existingUser = userRepository.findById(user_id).orElse(null);
@@ -37,20 +41,21 @@ public class ServiceProviderService {
         return existingSP;
     }
 
-    public ServiceProvider updateServiceProvider(Long user_id, ServiceProvider sp) {
+    public ServiceProviderDTO getServiceProvider(Long user_id) {
+        User existingUser = userRepository.findById(user_id).orElse(null);
+        if (existingUser == null) {
+            return null;
+        }
+        ServiceProvider existingSP = existingUser.getServiceProvider();
+        return modelMapper.map(existingSP, ServiceProviderDTO.class);
+    }
 
-
+    public ServiceProvider updateServiceProvider(Long user_id, ServiceProviderDTO spDTO) {
         ServiceProvider existingSP = getServiceProviderFromUserId(user_id);
-        if(existingSP != null) {
-            existingSP.setBusinessName(sp.getBusinessName());
-            existingSP.setBiography(sp.getBiography());
-            existingSP.setCertifications(sp.getCertifications());
-            existingSP.setBackgroundCheck(sp.isBackgroundCheck());
-            existingSP.setLocation(sp.getLocation());
-            existingSP.setAvailability(sp.getAvailability());
+        if (existingSP != null) {
+            modelMapper.map(spDTO, existingSP);
             return serviceProviderRepository.save(existingSP);
         }
-        
         return null;
     }
 

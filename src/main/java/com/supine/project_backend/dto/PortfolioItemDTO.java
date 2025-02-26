@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 public class PortfolioItemDTO {
 
+    private Long id;
     private String title;
     private String description;
     private float projectCost;

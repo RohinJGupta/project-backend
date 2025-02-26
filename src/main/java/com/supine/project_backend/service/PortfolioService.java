@@ -1,8 +1,11 @@
 package com.supine.project_backend.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.supine.project_backend.dto.PortfolioDTO;
+import com.supine.project_backend.dto.PortfolioItemDTO;
 import com.supine.project_backend.model.Portfolio;
 import com.supine.project_backend.model.User;
 import com.supine.project_backend.repository.PortfolioRepository;
@@ -12,9 +15,8 @@ import jakarta.transaction.Transactional;
 
 import com.supine.project_backend.model.PortfolioItem;
 
-
+import java.util.Arrays;
 import java.util.List;
-
 
 @Service
 public class PortfolioService {
@@ -24,11 +26,13 @@ public class PortfolioService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     @Transactional
-      public Portfolio savePortfolio(Portfolio portfolio) {
+    private Portfolio savePortfolio(Portfolio portfolio) {
         return portfolioRepository.save(portfolio);
     }
-
 
     private Portfolio getPortfolioFromUserId(Long user_id) {
         User existingUser = userRepository.findById(user_id).orElse(null);
@@ -41,37 +45,36 @@ public class PortfolioService {
         return existingPortfolio;
     }
 
-    public Portfolio getPortfolio(Long user_id) {
-        return getPortfolioFromUserId(user_id);
+    public PortfolioDTO getPortfolio(Long user_id) {
+        User existingUser = userRepository.findById(user_id).orElse(null);
+        if (existingUser == null) {
+            return null;
+        }
+        Portfolio existingPortfolio = existingUser.getServiceProvider().getPortfolio();
+        return modelMapper.map(existingPortfolio, PortfolioDTO.class);
     }
 
-    public List<PortfolioItem> getAllItems(Long user_id) {
+
+  
+    public List<PortfolioItemDTO> getAllItems(Long user_id) {
         Portfolio p = getPortfolioFromUserId(user_id);
         if(p == null) {
             return null;
         }
-        return p.getItems();
+        return Arrays.asList(modelMapper.map(p.getItems(), PortfolioItemDTO[].class));
     }
+  
 
-    public Portfolio updatePortfolio(Long user_id, Portfolio newPortfolio) {
+    public PortfolioDTO updatePortfolio(Long user_id, PortfolioDTO newPortfolioDTO) {
         Portfolio existingPortfolio = getPortfolioFromUserId(user_id);
         if (existingPortfolio != null) {
-            existingPortfolio.setTitle(newPortfolio.getTitle());
-            existingPortfolio.setOverview(newPortfolio.getOverview());
-            return portfolioRepository.save(existingPortfolio);
+            modelMapper.map(newPortfolioDTO, existingPortfolio);
+            return modelMapper.map(portfolioRepository.save(existingPortfolio), PortfolioDTO.class);
         }
-
         return null;
-
     }
 
-    
-    public Portfolio addPortfolioItem(Long user_id, PortfolioItem item) {
-        User existingUser = userRepository.findById(user_id).orElse(null);
-
-        if(existingUser == null) {
-            return null;
-        }
+    public PortfolioDTO addPortfolioItem(Long user_id, PortfolioItemDTO item) {
 
         Portfolio p = getPortfolioFromUserId(user_id);
 
@@ -79,9 +82,12 @@ public class PortfolioService {
             return null;
         }
 
-        p.getItems().add(item);
-        return portfolioRepository.save(p);
+        PortfolioItem newItem = new PortfolioItem();
+        modelMapper.map(item, newItem); 
+        
+
+        newItem.setPortfolio(p);
+        p.getItems().add(newItem);
+        return modelMapper.map(portfolioRepository.save(p), PortfolioDTO.class);
     }
-
-
 }
