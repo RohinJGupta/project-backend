@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.supine.project_backend.model.PortfolioItem;
+import com.supine.project_backend.dto.PortfolioItemDTO;
 import com.supine.project_backend.service.PortfolioItemService;
 
 import jakarta.validation.Valid;
@@ -19,13 +19,19 @@ public class PortfolioItemController {
     @Autowired
     private PortfolioItemService portfolioItemService;
 
-    @GetMapping("/api/portfolioitems/get-item/{item-id}")
-    public PortfolioItem getPortfolioItem(@PathVariable Long item_id) {
-        return portfolioItemService.getPortfolioItem(item_id);
+    @GetMapping("/api/items/{item-id}")
+    public ResponseEntity<PortfolioItemDTO> getPortfolioItem(@PathVariable Long item_id) {
+        PortfolioItemDTO res = portfolioItemService.getPortfolioItem(item_id);
+        if(res != null) {
+            return ResponseEntity.ok().body(res);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 
-    @DeleteMapping("/api/portfolioitems/remove-item/{item-id}")
+    @DeleteMapping("/api/items/{item-id}")
     public ResponseEntity<Void> deletePortfolioItem(@PathVariable Long item_id) {
         boolean isDeleted = portfolioItemService.deletePortfolioItem(item_id);
         
@@ -38,8 +44,14 @@ public class PortfolioItemController {
     } 
 
     
-    @PutMapping("/api/portfolioitems/update-item/{item-id}")
-    public PortfolioItem updatePortfolioItem(@PathVariable Long item_id, @Valid @RequestBody PortfolioItem portfolioItem) {
-        return portfolioItemService.updatePortfolioItem(item_id, portfolioItem);
+    @PutMapping("/api/items/{item-id}")
+    public ResponseEntity<PortfolioItemDTO> updatePortfolioItem(@PathVariable Long item_id, @Valid @RequestBody PortfolioItemDTO portfolioItemDTO) {
+        PortfolioItemDTO res = portfolioItemService.updatePortfolioItem(item_id, portfolioItemDTO);
+        if(res != null) {
+            return ResponseEntity.ok().body(res);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

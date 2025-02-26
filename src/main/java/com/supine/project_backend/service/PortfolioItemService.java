@@ -1,9 +1,10 @@
 package com.supine.project_backend.service;
 
-
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.supine.project_backend.dto.PortfolioItemDTO;
 import com.supine.project_backend.model.PortfolioItem;
 import com.supine.project_backend.repository.PortfolioItemRepository;
 import com.supine.project_backend.repository.UserRepository;
@@ -13,41 +14,33 @@ import jakarta.transaction.Transactional;
 @Service
 public class PortfolioItemService {
 
-
     @Autowired
     UserRepository userRepository;
 
     @Autowired
     PortfolioItemRepository portfolioItemRepository;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     @Transactional
-    public PortfolioItem savePortfolioItem(PortfolioItem portfolioItem) {
+    private PortfolioItem savePortfolioItem(PortfolioItem portfolioItem) {
       return portfolioItemRepository.save(portfolioItem);
     }
 
-    public PortfolioItem getPortfolioItem(Long item_id) {
-        return portfolioItemRepository.findById(item_id).orElse(null);
+    public PortfolioItemDTO getPortfolioItem(Long item_id) {
+        PortfolioItem portfolioItem = portfolioItemRepository.findById(item_id).orElse(null);
+        return modelMapper.map(portfolioItem, PortfolioItemDTO.class);
     }
 
-    public PortfolioItem updatePortfolioItem(Long item_id, PortfolioItem newItem) {
+    public PortfolioItemDTO updatePortfolioItem(Long item_id, PortfolioItemDTO newItemDTO) {
         PortfolioItem existingPortfolioItem = portfolioItemRepository.findById(item_id).orElse(null);
         if (existingPortfolioItem == null) {
             return null;
-        }   
-
-        existingPortfolioItem.setTitle(newItem.getTitle());
-        existingPortfolioItem.setDescription(newItem.getDescription());
-        existingPortfolioItem.setProjectCost(newItem.getProjectCost());
-        existingPortfolioItem.setDuration(newItem.getDuration());
-        existingPortfolioItem.setCategory(newItem.getCategory());
-        existingPortfolioItem.setIsFeatured(newItem.isFeatured());
-        existingPortfolioItem.setProjectDate(newItem.getProjectDate());
-        return portfolioItemRepository.save(existingPortfolioItem);
+        }
+        modelMapper.map(newItemDTO, existingPortfolioItem);
+        return modelMapper.map(portfolioItemRepository.save(existingPortfolioItem), PortfolioItemDTO.class);
     }
-
-
-
-
 
     @Transactional
     public boolean deletePortfolioItem(Long item_id) {
@@ -55,13 +48,7 @@ public class PortfolioItemService {
         if (portfolioItem != null) {
             portfolioItemRepository.delete(portfolioItem);
             return true;
-
         }
         return false;
     }
-
-
-
-   
-
 }

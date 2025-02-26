@@ -2,12 +2,16 @@ package com.supine.project_backend.dto;
 
 public class PortfolioDTO {
 
+    private Long id;
     private String title;
     private String overview;
 
 
     // Getters and Setters
 
+    public Long getId() {
+        return id;
+    }
 
     public String getTitle() {
         return title;

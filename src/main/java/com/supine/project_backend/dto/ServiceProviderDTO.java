@@ -8,7 +8,7 @@ import org.locationtech.jts.geom.Point;
 public class ServiceProviderDTO {
 
 
-
+    private Long id;
     private String businessName;
     private String biography;
     private String certifications;
@@ -20,7 +20,9 @@ public class ServiceProviderDTO {
 
     // Getters and Setters
 
-
+    public Long getId() {
+        return id;
+    }
 
     public String getBusinessName() {
         return businessName;

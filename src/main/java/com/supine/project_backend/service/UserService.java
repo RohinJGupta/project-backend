@@ -1,6 +1,7 @@
 package com.supine.project_backend.service;
 
 import java.util.ArrayList;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +10,8 @@ import com.supine.project_backend.model.User;
 import com.supine.project_backend.repository.UserRepository;
 import com.supine.project_backend.model.ServiceProvider;
 import com.supine.project_backend.model.Portfolio;
+import com.supine.project_backend.dto.NewUserDTO;
+import com.supine.project_backend.dto.UserDTO;
 
 
 @Service
@@ -19,14 +22,21 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     @Transactional
     public User saveUser(User user) {
         return userRepository.save(user);
     }
 
-    public User createUser(User user) {
-        if(!user.isProvider()) {
-            user.setServiceProvider(null);
+    public UserDTO createUser(NewUserDTO userDTO) {
+        User newUser = new User();
+
+        modelMapper.map(userDTO, newUser); 
+        
+        if(!newUser.isProvider()) {
+            newUser.setServiceProvider(null);
            
         }
         else {
@@ -34,8 +44,8 @@ public class UserService {
             Portfolio portfolio = new Portfolio();
             
             // Set up bidirectional relationships
-            serviceProvider.setUser(user);
-            user.setServiceProvider(serviceProvider);
+            serviceProvider.setUser(newUser);
+            newUser.setServiceProvider(serviceProvider);
             
             portfolio.setServiceProvider(serviceProvider);
             serviceProvider.setPortfolio(portfolio);
@@ -44,43 +54,31 @@ public class UserService {
          
         }
 
-        // user.setCreatedAt(Instant.now());
-        // user.setUpdatedAt(Instant.now());
-        return userRepository.save(user);
+
+        return modelMapper.map(userRepository.save(newUser), UserDTO.class);
     }
 
     
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
+    private User getUserById(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        return user;
+    }
+
+    public UserDTO getUser(Long id) {
+        User existingUser = getUserById(id);
+        if(existingUser != null ) {
+            return modelMapper.map(existingUser, UserDTO.class);
+        }
+        return null;   
     }
 
    
-    public User updateUser(Long id, User user) {
+    public UserDTO updateUser(Long id, UserDTO userDTO) {
         User existingUser = userRepository.findById(id).orElse(null);
         if (existingUser != null) {
-            existingUser.setFirstName(user.getFirstName());
-            existingUser.setLastName(user.getLastName());
-            existingUser.setEmail(user.getUsername()); 
-            existingUser.setIsProvider(user.isProvider());
-            if(user.isProvider() && existingUser.getServiceProvider() == null) {
-                ServiceProvider serviceProvider = new ServiceProvider();
-                Portfolio portfolio = new Portfolio();
-    
-                existingUser.setServiceProvider(serviceProvider);
-                serviceProvider.setUser(existingUser);
-    
-                serviceProvider.setPortfolio(portfolio);
-                portfolio.setServiceProvider(serviceProvider);
-    
-                portfolio.setItems(new ArrayList<>());
-            }
-            else if (!user.isProvider()){
-                existingUser.setServiceProvider(null);
-            }
-            existingUser.setPhone(user.getPhone());
-            return userRepository.save(existingUser);
+            modelMapper.map(userDTO, existingUser);
+            return modelMapper.map(userRepository.save(existingUser), UserDTO.class);
         }
-    
         return null;
     }
 
