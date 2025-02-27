@@ -75,7 +75,7 @@ public class PortfolioService {
         return null;
     }
 
-    public PortfolioDTO addPortfolioItem(Long user_id, NewPortfolioItemDTO item) {
+    public PortfolioDTO addPortfolioItem(Long user_id, PortfolioItemDTO item) {
 
         Portfolio p = getPortfolioFromUserId(user_id);
 

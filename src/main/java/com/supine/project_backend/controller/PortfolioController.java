@@ -64,7 +64,7 @@ public class PortfolioController {
 
 
     @PostMapping("/api/portfolios/{user_id}")
-    public ResponseEntity<PortfolioDTO> addPortfolioItem(@PathVariable Long user_id, @Valid @RequestBody NewPortfolioItemDTO portfolioItemDTO) {
+    public ResponseEntity<PortfolioDTO> addPortfolioItem(@PathVariable Long user_id, @Valid @RequestBody PortfolioItemDTO portfolioItemDTO) {
         PortfolioDTO portfolioDTO = portfolioService.addPortfolioItem(user_id, portfolioItemDTO);
         if(portfolioDTO != null) {
             return ResponseEntity.created(URI.create("/api/portfolios/" + user_id + "/items/" + portfolioDTO.getId())).body(portfolioDTO);

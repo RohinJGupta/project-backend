@@ -30,7 +30,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public UserDTO createUser(NewUserDTO userDTO) {
+
+    //modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+    //Look into using the above instead of NewUserDTO with Integer wrapper class
+    public UserDTO createUser(UserDTO userDTO) {
         User newUser = new User();
 
         modelMapper.map(userDTO, newUser); 
