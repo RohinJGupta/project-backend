@@ -13,6 +13,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+//refactor to profile
+
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -34,7 +36,7 @@ public class User implements UserDetails {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    private boolean isVerified;
+
     private boolean isProvider;
 
     //location in profile class
@@ -83,9 +85,6 @@ public class User implements UserDetails {
         return updatedAt;
     }
 
-    public boolean isVerified() {
-        return isVerified;
-    }
 
     public boolean isProvider() {
         return isProvider;
@@ -135,10 +134,7 @@ public class User implements UserDetails {
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-    public void setIsVerified(boolean isVerified) {
-        this.isVerified = isVerified;
-    }   
+ 
 
     public void setIsProvider(boolean isProvider) {
         this.isProvider = isProvider;

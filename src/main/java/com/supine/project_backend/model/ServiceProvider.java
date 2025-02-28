@@ -14,6 +14,8 @@ import org.locationtech.jts.geom.Point;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+//refactor to vendor
+
 @Entity
 @Table(name = "service_providers")
 public class ServiceProvider {
