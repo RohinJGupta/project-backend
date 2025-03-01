@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.supine.project_backend.dto.ProfileDTO;
 import com.supine.project_backend.service.ProfileService;
-import com.supine.project_backend.model.Profile;
 
 import jakarta.validation.Valid;
 

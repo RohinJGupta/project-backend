@@ -13,11 +13,9 @@ import com.supine.project_backend.service.PortfolioService;
 
 import jakarta.validation.Valid;
 
-import com.supine.project_backend.dto.NewPortfolioItemDTO;
 import com.supine.project_backend.dto.PortfolioDTO;
 import com.supine.project_backend.dto.PortfolioItemDTO;
 import com.supine.project_backend.dto.ServiceProviderDTO;
-import com.supine.project_backend.model.Profile;
 
 import java.net.URI;
 import java.util.List;
