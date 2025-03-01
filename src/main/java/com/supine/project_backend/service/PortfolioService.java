@@ -8,7 +8,7 @@ import com.supine.project_backend.dto.NewPortfolioItemDTO;
 import com.supine.project_backend.dto.PortfolioDTO;
 import com.supine.project_backend.dto.PortfolioItemDTO;
 import com.supine.project_backend.model.Portfolio;
-import com.supine.project_backend.model.User;
+import com.supine.project_backend.model.Profile;
 import com.supine.project_backend.repository.PortfolioRepository;
 import com.supine.project_backend.repository.UserRepository;
 
@@ -36,7 +36,7 @@ public class PortfolioService {
     }
 
     private Portfolio getPortfolioFromUserId(Long user_id) {
-        User existingUser = userRepository.findById(user_id).orElse(null);
+        Profile existingUser = userRepository.findById(user_id).orElse(null);
 
         if(existingUser == null) {
             return null;
@@ -47,7 +47,7 @@ public class PortfolioService {
     }
 
     public PortfolioDTO getPortfolio(Long user_id) {
-        User existingUser = userRepository.findById(user_id).orElse(null);
+        Profile existingUser = userRepository.findById(user_id).orElse(null);
         if (existingUser == null) {
             return null;
         }

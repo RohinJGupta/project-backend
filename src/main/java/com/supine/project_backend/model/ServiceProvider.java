@@ -31,7 +31,7 @@ public class ServiceProvider {
 
     @JsonBackReference
     @OneToOne(mappedBy = "serviceProvider")
-    private User user;
+    private Profile profile;
 
     @Column(nullable = true)
     private String businessName;
@@ -69,8 +69,8 @@ public class ServiceProvider {
         return portfolio;
     }
 
-    public User getUser() {
-        return user;
+    public Profile getProfile() {
+        return profile;
     }
     
     public String getBusinessName() {
@@ -120,8 +120,8 @@ public class ServiceProvider {
         this.portfolio = portfolio;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }   
 
     public void setBusinessName(String businessName) {

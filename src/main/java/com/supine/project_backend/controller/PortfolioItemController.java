@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.supine.project_backend.dto.PortfolioItemDTO;
 import com.supine.project_backend.service.PortfolioItemService;
+import com.supine.project_backend.model.Profile;
 
 import jakarta.validation.Valid;
 

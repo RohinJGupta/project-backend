@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import jakarta.validation.Valid;
 
 import com.supine.project_backend.dto.ServiceProviderDTO;
+import com.supine.project_backend.model.Profile;
 
 
 @RestController

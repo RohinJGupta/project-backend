@@ -3,9 +3,9 @@ package com.supine.project_backend.controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.supine.project_backend.dto.NewUserDTO;
-import com.supine.project_backend.dto.UserDTO;
+import com.supine.project_backend.dto.ProfileDTO;
 import com.supine.project_backend.service.UserService;
-
+import com.supine.project_backend.model.Profile;
 
 import jakarta.validation.Valid;
 
@@ -22,15 +22,15 @@ public class UserController {
 
 
     @GetMapping("/api/users/me")
-    public ResponseEntity<UserDTO> getMe() {
+    public ResponseEntity<ProfileDTO> getMe() {
         //TODO - Along with other "me" APIs - Might only be Get
         return null;
     }
        
 
     @GetMapping("/api/users/{id}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
-        UserDTO res = userService.getUser(id);
+    public ResponseEntity<ProfileDTO> getUser(@PathVariable Long id) {
+        ProfileDTO res = userService.getUser(id);
         if(res != null) {
             return ResponseEntity.ok().body(res);
         }
@@ -41,8 +41,8 @@ public class UserController {
 
 
     @PostMapping("/api/users")
-    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
-        UserDTO res = userService.createUser(userDTO);
+    public ResponseEntity<ProfileDTO> createUser(@Valid @RequestBody ProfileDTO userDTO) {
+        ProfileDTO res = userService.createUser(userDTO);
         if(res != null) {
             return ResponseEntity.created(URI.create("/api/users/" + res.getId())).body(res);
         }
@@ -55,8 +55,8 @@ public class UserController {
 
 
     @PutMapping("/api/users/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO) {
-        UserDTO res = userService.updateUser(id, userDTO);
+    public ResponseEntity<ProfileDTO> updateUser(@PathVariable Long id, @Valid @RequestBody ProfileDTO userDTO) {
+        ProfileDTO res = userService.updateUser(id, userDTO);
         if(res != null) {
             return ResponseEntity.ok().body(res);
         }

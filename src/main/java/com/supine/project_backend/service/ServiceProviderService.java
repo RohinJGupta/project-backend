@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.supine.project_backend.dto.ServiceProviderDTO;
 import com.supine.project_backend.model.ServiceProvider;
-import com.supine.project_backend.model.User;
+import com.supine.project_backend.model.Profile;
 import com.supine.project_backend.repository.ServiceProviderRepository;
 import com.supine.project_backend.repository.UserRepository;
 
@@ -30,7 +30,7 @@ public class ServiceProviderService {
     }
 
     private ServiceProvider getServiceProviderFromUserId(Long user_id) {
-        User existingUser = userRepository.findById(user_id).orElse(null);
+        Profile existingUser = userRepository.findById(user_id).orElse(null);
 
         if(existingUser == null) {
             return null;

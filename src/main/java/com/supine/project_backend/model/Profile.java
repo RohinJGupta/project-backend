@@ -13,8 +13,8 @@ import org.locationtech.jts.awt.PointShapeFactory.Point;
 //refactor to profile
 
 @Entity
-@Table(name = "users")
-public class User  {
+@Table(name = "profiles")
+public class Profile  {
     @Id
     private Long id;
 
