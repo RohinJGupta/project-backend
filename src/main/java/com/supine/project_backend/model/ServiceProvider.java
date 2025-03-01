@@ -44,8 +44,8 @@ public class ServiceProvider {
 
      
 
-    private Point location;
     //Add Range for Providers - Default 100km...
+    private Integer serviceRange;
 
     private String availability;
 
@@ -89,9 +89,6 @@ public class ServiceProvider {
         return backgroundCheck;
     }
 
-    public Point getLocation() {
-        return location;
-    }
 
     public String getAvailability() {
         return availability;
@@ -107,6 +104,10 @@ public class ServiceProvider {
 
     public Instant getUpdatedAt() {
         return updatedAt;
+    }
+
+    public Integer getServiceRange() {
+        return serviceRange;
     }
 
     //setters
@@ -138,10 +139,7 @@ public class ServiceProvider {
     public void setBackgroundCheck(boolean backgroundCheck) {
         this.backgroundCheck = backgroundCheck;
     }   
-
-    public void setLocation(Point location) {
-        this.location = location;
-    }   
+ 
 
     public void setAvailability(String availability) {
         this.availability = availability;
@@ -158,6 +156,10 @@ public class ServiceProvider {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public void setServiceRange(Integer serviceRange) {
+        this.serviceRange = serviceRange;
     }
     
 }
