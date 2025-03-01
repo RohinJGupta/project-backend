@@ -27,7 +27,7 @@ public class PortfolioService {
     private ProfileRepository profileRepository;
 
     @Autowired
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @Transactional
     private Portfolio savePortfolio(Portfolio portfolio) {

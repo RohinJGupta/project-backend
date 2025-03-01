@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.locationtech.jts.awt.PointShapeFactory.Point;
+import org.locationtech.jts.geom.Point;
 
 //refactor to profile
 
