@@ -8,7 +8,7 @@ import com.supine.project_backend.dto.ServiceProviderDTO;
 import com.supine.project_backend.model.ServiceProvider;
 import com.supine.project_backend.model.Profile;
 import com.supine.project_backend.repository.ServiceProviderRepository;
-import com.supine.project_backend.repository.UserRepository;
+import com.supine.project_backend.repository.ProfileRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -18,7 +18,7 @@ public class ServiceProviderService {
     ServiceProviderRepository serviceProviderRepository;
 
     @Autowired
-    UserRepository userRepository;
+    ProfileRepository profileRepository;
 
     @Autowired
     ModelMapper modelMapper;
@@ -29,26 +29,26 @@ public class ServiceProviderService {
         return serviceProviderRepository.save(serviceProvider);
     }
 
-    private ServiceProvider getServiceProviderFromUserId(Long user_id) {
-        Profile existingUser = userRepository.findById(user_id).orElse(null);
+    private ServiceProvider getServiceProviderFromprofileId(Long profile_id) {
+        Profile existingProfile = profileRepository.findById(profile_id).orElse(null);
 
-        if(existingUser == null) {
+        if(existingProfile == null) {
             return null;
         }
 
-        // ServiceProvider existingSP = serviceProviderRepository.findById(existingUser.getServiceProvider().getId()).orElse(null);
-        ServiceProvider existingSP = existingUser.getServiceProvider();
+        // ServiceProvider existingSP = serviceProviderRepository.findById(existingprofile.getServiceProvider().getId()).orElse(null);
+        ServiceProvider existingSP = existingProfile.getServiceProvider();
         return existingSP;
     }
 
 
-    public ServiceProviderDTO getServiceProvider(Long user_id) {
-        return modelMapper.map(getServiceProviderFromUserId(user_id), ServiceProviderDTO.class);
+    public ServiceProviderDTO getServiceProvider(Long profile_id) {
+        return modelMapper.map(getServiceProviderFromprofileId(profile_id), ServiceProviderDTO.class);
     }
 
   
-    public ServiceProviderDTO updateServiceProvider(Long user_id, ServiceProviderDTO spDTO) {
-        ServiceProvider existingSP = getServiceProviderFromUserId(user_id);
+    public ServiceProviderDTO updateServiceProvider(Long profile_id, ServiceProviderDTO spDTO) {
+        ServiceProvider existingSP = getServiceProviderFromprofileId(profile_id);
         if (existingSP != null) {
             modelMapper.map(spDTO, existingSP);
             return modelMapper.map(serviceProviderRepository.save(existingSP), ServiceProviderDTO.class);
@@ -64,12 +64,12 @@ public class ServiceProviderService {
 
     //}
 
-      // public ServiceProviderDTO getServiceProvider(Long user_id) {
-    //     User existingUser = userRepository.findById(user_id).orElse(null);
-    //     if (existingUser == null) {
+      // public ServiceProviderDTO getServiceProvider(Long profile_id) {
+    //     profile existingprofile = profileRepository.findById(profile_id).orElse(null);
+    //     if (existingprofile == null) {
     //         return null;
     //     }
-    //     ServiceProvider existingSP = existingUser.getServiceProvider();
+    //     ServiceProvider existingSP = existingprofile.getServiceProvider();
    
     // }
     

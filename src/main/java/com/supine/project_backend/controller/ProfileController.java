@@ -2,9 +2,8 @@ package com.supine.project_backend.controller;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.supine.project_backend.dto.NewUserDTO;
 import com.supine.project_backend.dto.ProfileDTO;
-import com.supine.project_backend.service.UserService;
+import com.supine.project_backend.service.ProfileService;
 import com.supine.project_backend.model.Profile;
 
 import jakarta.validation.Valid;
@@ -14,23 +13,23 @@ import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 @RestController
-public class UserController {
+public class ProfileController {
 
     @Autowired
-    private UserService userService;
+    private ProfileService profileService;
 
 
 
-    @GetMapping("/api/users/me")
+    @GetMapping("/api/profiles/me")
     public ResponseEntity<ProfileDTO> getMe() {
         //TODO - Along with other "me" APIs - Might only be Get
         return null;
     }
        
 
-    @GetMapping("/api/users/{id}")
-    public ResponseEntity<ProfileDTO> getUser(@PathVariable Long id) {
-        ProfileDTO res = userService.getUser(id);
+    @GetMapping("/api/profiles/{id}")
+    public ResponseEntity<ProfileDTO> getprofile(@PathVariable Long id) {
+        ProfileDTO res = profileService.getProfile(id);
         if(res != null) {
             return ResponseEntity.ok().body(res);
         }
@@ -40,11 +39,11 @@ public class UserController {
     }
 
 
-    @PostMapping("/api/users")
-    public ResponseEntity<ProfileDTO> createUser(@Valid @RequestBody ProfileDTO userDTO) {
-        ProfileDTO res = userService.createUser(userDTO);
+    @PostMapping("/api/profiles")
+    public ResponseEntity<ProfileDTO> createprofile(@Valid @RequestBody ProfileDTO profileDTO) {
+        ProfileDTO res = profileService.createProfile(profileDTO);
         if(res != null) {
-            return ResponseEntity.created(URI.create("/api/users/" + res.getId())).body(res);
+            return ResponseEntity.created(URI.create("/api/profiles/" + res.getId())).body(res);
         }
         else {
             return ResponseEntity.notFound().build();
@@ -54,9 +53,9 @@ public class UserController {
 
 
 
-    @PutMapping("/api/users/{id}")
-    public ResponseEntity<ProfileDTO> updateUser(@PathVariable Long id, @Valid @RequestBody ProfileDTO userDTO) {
-        ProfileDTO res = userService.updateUser(id, userDTO);
+    @PutMapping("/api/profiles/{id}")
+    public ResponseEntity<ProfileDTO> updateprofile(@PathVariable Long id, @Valid @RequestBody ProfileDTO profileDTO) {
+        ProfileDTO res = profileService.updateProfile(id, profileDTO);
         if(res != null) {
             return ResponseEntity.ok().body(res);
         }
@@ -65,9 +64,9 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/api/users/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        boolean isDeleted = userService.deleteUser(id);
+    @DeleteMapping("/api/profiles/{id}")
+    public ResponseEntity<Void> deleteprofile(@PathVariable Long id) {
+        boolean isDeleted = profileService.deleteProfile(id);
         
         if(isDeleted) {
             return ResponseEntity.noContent().build();
@@ -80,4 +79,4 @@ public class UserController {
 }
 
 
-    //will need to seperate /api/users/me and /api/users/get-user/{id} using auth first and path var second
+    //will need to seperate /api/profiles/me and /api/profiles/get-profile/{id} using auth first and path var second

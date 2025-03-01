@@ -7,46 +7,45 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.supine.project_backend.model.Profile;
-import com.supine.project_backend.repository.UserRepository;
+import com.supine.project_backend.repository.ProfileRepository;
 import com.supine.project_backend.model.ServiceProvider;
 import com.supine.project_backend.model.Portfolio;
-import com.supine.project_backend.dto.NewUserDTO;
 import com.supine.project_backend.dto.ProfileDTO;
 
 
 @Service
-public class UserService {
+public class ProfileService {
 
     //TODO - need to figure out transaction management in case of failed update, create, etc.
 
     @Autowired
-    private UserRepository userRepository;
+    private ProfileRepository profileRepository;
 
     @Autowired
     ModelMapper modelMapper;
 
     @Transactional
-    public Profile saveUser(Profile user) {
-        return userRepository.save(user);
+    public Profile saveProfile(Profile profile) {
+        return profileRepository.save(profile);
     }
 
 
     //modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
-    //Look into using the above instead of NewUserDTO with Integer wrapper class
-    public ProfileDTO createUser(ProfileDTO userDTO) {
-        Profile newUser = new Profile();
+    //Look into using the above instead of NewprofileDTO with Integer wrapper class
+    public ProfileDTO createProfile(ProfileDTO profileDTO) {
+        Profile newProfile = new Profile();
 
-        modelMapper.map(userDTO, newUser); 
+        modelMapper.map(profileDTO, newProfile); 
         
-        if(!newUser.isProvider()) {
-            newUser.setServiceProvider(null);
+        if(!newProfile.isProvider()) {
+            newProfile.setServiceProvider(null);
         } else {
             ServiceProvider serviceProvider = new ServiceProvider();
             Portfolio portfolio = new Portfolio();
             
             // Set up bidirectional relationships
-            serviceProvider.setProfile(newUser);
-            newUser.setServiceProvider(serviceProvider);
+            serviceProvider.setProfile(newProfile);
+            newProfile.setServiceProvider(serviceProvider);
             
             portfolio.setServiceProvider(serviceProvider);
             serviceProvider.setPortfolio(portfolio);
@@ -54,38 +53,38 @@ public class UserService {
             portfolio.setItems(new ArrayList<>());
         }
 
-        return modelMapper.map(userRepository.save(newUser), ProfileDTO.class);
+        return modelMapper.map(profileRepository.save(newProfile), ProfileDTO.class);
     }
 
     
-    private Profile getUserById(Long id) {
-        Profile user = userRepository.findById(id).orElse(null);
-        return user;
+    private Profile getProfileById(Long id) {
+        Profile profile = profileRepository.findById(id).orElse(null);
+        return profile;
     }
 
-    public ProfileDTO getUser(Long id) {
-        Profile existingUser = getUserById(id);
-        if(existingUser != null ) {
-            return modelMapper.map(existingUser, ProfileDTO.class);
+    public ProfileDTO getProfile(Long id) {
+        Profile existingProfile = getProfileById(id);
+        if(existingProfile != null ) {
+            return modelMapper.map(existingProfile, ProfileDTO.class);
         }
         return null;   
     }
 
    
-    public ProfileDTO updateUser(Long id, ProfileDTO userDTO) {
-        Profile existingUser = userRepository.findById(id).orElse(null);
-        if (existingUser != null) {
-            modelMapper.map(userDTO, existingUser);
-            return modelMapper.map(userRepository.save(existingUser), ProfileDTO.class);
+    public ProfileDTO updateProfile(Long id, ProfileDTO profileDTO) {
+        Profile existingProfile = profileRepository.findById(id).orElse(null);
+        if (existingProfile != null) {
+            modelMapper.map(profileDTO, existingProfile);
+            return modelMapper.map(profileRepository.save(existingProfile), ProfileDTO.class);
         }
         return null;
     }
 
     @Transactional
-    public boolean deleteUser(Long id) {
-        Profile user = userRepository.findById(id).orElse(null);
-        if (user != null) {
-            userRepository.delete(user);
+    public boolean deleteProfile(Long id) {
+        Profile profile = profileRepository.findById(id).orElse(null);
+        if (profile != null) {
+            profileRepository.delete(profile);
             return true;
         }
         return false;

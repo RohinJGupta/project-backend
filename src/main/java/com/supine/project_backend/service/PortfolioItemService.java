@@ -6,18 +6,13 @@ import org.springframework.stereotype.Service;
 
 import com.supine.project_backend.dto.PortfolioItemDTO;
 import com.supine.project_backend.model.PortfolioItem;
-import com.supine.project_backend.model.Profile;
 import com.supine.project_backend.repository.PortfolioItemRepository;
-import com.supine.project_backend.repository.UserRepository;
 
 
 import jakarta.transaction.Transactional;
 
 @Service
 public class PortfolioItemService {
-
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
     PortfolioItemRepository portfolioItemRepository;

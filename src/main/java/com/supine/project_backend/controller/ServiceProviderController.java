@@ -31,10 +31,10 @@ public class ServiceProviderController {
         return null;
     }
 
-    @GetMapping("/api/providers/{user_id}")
-    public ResponseEntity<ServiceProviderDTO> getServiceProvider(@PathVariable Long user_id) {
+    @GetMapping("/api/providers/{profile_id}")
+    public ResponseEntity<ServiceProviderDTO> getServiceProvider(@PathVariable Long profile_id) {
         //if null return null
-        ServiceProviderDTO res = serviceProviderService.getServiceProvider(user_id);
+        ServiceProviderDTO res = serviceProviderService.getServiceProvider(profile_id);
         if(res != null) {
             return ResponseEntity.ok().body(res);
         }
@@ -43,9 +43,9 @@ public class ServiceProviderController {
         }
     }
 
-    @PutMapping("/api/providers/{user_id}")
-    public ResponseEntity<ServiceProviderDTO> updateServiceProvider(@PathVariable Long user_id, @Valid @RequestBody ServiceProviderDTO spDTO) {
-        ServiceProviderDTO res = serviceProviderService.updateServiceProvider(user_id, spDTO);
+    @PutMapping("/api/providers/{profile_id}")
+    public ResponseEntity<ServiceProviderDTO> updateServiceProvider(@PathVariable Long profile_id, @Valid @RequestBody ServiceProviderDTO spDTO) {
+        ServiceProviderDTO res = serviceProviderService.updateServiceProvider(profile_id, spDTO);
         if(res != null) {
             return ResponseEntity.ok().body(res);
         }
@@ -59,9 +59,9 @@ public class ServiceProviderController {
 }
 
 
-    // @PostMapping("/api/service-providers/create-sp/{user_id}")
-    // public ServiceProvider createServiceProvider(@PathVariable Long user_id, @Valid @RequestBody ServiceProvider sp) {
-    //     return serviceProviderService.createServiceProvider(user_id, sp);
+    // @PostMapping("/api/service-providers/create-sp/{profile_id}")
+    // public ServiceProvider createServiceProvider(@PathVariable Long profile_id, @Valid @RequestBody ServiceProvider sp) {
+    //     return serviceProviderService.createServiceProvider(profile_id, sp);
     // }
 
-    //will need to seperate /api/sp/me and /api/users/get-sp/{id} using auth first and path var second
+    //will need to seperate /api/sp/me and /api/profiles/get-sp/{id} using auth first and path var second
