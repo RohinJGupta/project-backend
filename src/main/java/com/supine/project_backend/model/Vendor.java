@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.locationtech.jts.geom.Point;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -17,8 +16,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 //refactor to vendor
 
 @Entity
-@Table(name = "service_providers")
-public class ServiceProvider {
+@Table(name = "vendors")
+public class Vendor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,8 +29,8 @@ public class ServiceProvider {
     private Portfolio portfolio;
 
     @JsonBackReference
-    @OneToOne(mappedBy = "serviceProvider")
-    private User user;
+    @OneToOne(mappedBy = "vendor")
+    private Profile profile;
 
     @Column(nullable = true)
     private String businessName;
@@ -44,8 +43,8 @@ public class ServiceProvider {
 
      
 
-    private Point location;
     //Add Range for Providers - Default 100km...
+    private Integer serviceRange;
 
     private String availability;
 
@@ -69,8 +68,8 @@ public class ServiceProvider {
         return portfolio;
     }
 
-    public User getUser() {
-        return user;
+    public Profile getProfile() {
+        return profile;
     }
     
     public String getBusinessName() {
@@ -89,9 +88,6 @@ public class ServiceProvider {
         return backgroundCheck;
     }
 
-    public Point getLocation() {
-        return location;
-    }
 
     public String getAvailability() {
         return availability;
@@ -109,6 +105,10 @@ public class ServiceProvider {
         return updatedAt;
     }
 
+    public Integer getServiceRange() {
+        return serviceRange;
+    }
+
     //setters
 
     public void setId(Long id) {
@@ -119,8 +119,8 @@ public class ServiceProvider {
         this.portfolio = portfolio;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }   
 
     public void setBusinessName(String businessName) {
@@ -138,10 +138,7 @@ public class ServiceProvider {
     public void setBackgroundCheck(boolean backgroundCheck) {
         this.backgroundCheck = backgroundCheck;
     }   
-
-    public void setLocation(Point location) {
-        this.location = location;
-    }   
+ 
 
     public void setAvailability(String availability) {
         this.availability = availability;
@@ -158,6 +155,10 @@ public class ServiceProvider {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public void setServiceRange(Integer serviceRange) {
+        this.serviceRange = serviceRange;
     }
     
 }

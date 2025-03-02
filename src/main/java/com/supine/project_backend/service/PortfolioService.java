@@ -4,13 +4,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.supine.project_backend.dto.NewPortfolioItemDTO;
 import com.supine.project_backend.dto.PortfolioDTO;
 import com.supine.project_backend.dto.PortfolioItemDTO;
 import com.supine.project_backend.model.Portfolio;
-import com.supine.project_backend.model.User;
+import com.supine.project_backend.model.Profile;
 import com.supine.project_backend.repository.PortfolioRepository;
-import com.supine.project_backend.repository.UserRepository;
+import com.supine.project_backend.repository.ProfileRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -25,40 +24,40 @@ public class PortfolioService {
     private PortfolioRepository portfolioRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private ProfileRepository profileRepository;
 
     @Autowired
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @Transactional
     private Portfolio savePortfolio(Portfolio portfolio) {
         return portfolioRepository.save(portfolio);
     }
 
-    private Portfolio getPortfolioFromUserId(Long user_id) {
-        User existingUser = userRepository.findById(user_id).orElse(null);
+    private Portfolio getPortfolioFromProfileId(Long profile_id) {
+        Profile existingProfile = profileRepository.findById(profile_id).orElse(null);
 
-        if(existingUser == null) {
+        if(existingProfile == null) {
             return null;
         }
 
-        Portfolio existingPortfolio = portfolioRepository.findById(existingUser.getServiceProvider().getId()).orElse(null);
+        Portfolio existingPortfolio = portfolioRepository.findById(existingProfile.getVendor().getId()).orElse(null);
         return existingPortfolio;
     }
 
-    public PortfolioDTO getPortfolio(Long user_id) {
-        User existingUser = userRepository.findById(user_id).orElse(null);
-        if (existingUser == null) {
+    public PortfolioDTO getPortfolio(Long profile_id) {
+        Profile existingProfile = profileRepository.findById(profile_id).orElse(null);
+        if (existingProfile == null) {
             return null;
         }
-        Portfolio existingPortfolio = existingUser.getServiceProvider().getPortfolio();
+        Portfolio existingPortfolio = existingProfile.getVendor().getPortfolio();
         return modelMapper.map(existingPortfolio, PortfolioDTO.class);
     }
 
 
   
-    public List<PortfolioItemDTO> getAllItems(Long user_id) {
-        Portfolio p = getPortfolioFromUserId(user_id);
+    public List<PortfolioItemDTO> getAllItems(Long profile_id) {
+        Portfolio p = getPortfolioFromProfileId(profile_id);
         if(p == null) {
             return null;
         }
@@ -66,8 +65,8 @@ public class PortfolioService {
     }
   
 
-    public PortfolioDTO updatePortfolio(Long user_id, PortfolioDTO newPortfolioDTO) {
-        Portfolio existingPortfolio = getPortfolioFromUserId(user_id);
+    public PortfolioDTO updatePortfolio(Long profile_id, PortfolioDTO newPortfolioDTO) {
+        Portfolio existingPortfolio = getPortfolioFromProfileId(profile_id);
         if (existingPortfolio != null) {
             modelMapper.map(newPortfolioDTO, existingPortfolio);
             return modelMapper.map(portfolioRepository.save(existingPortfolio), PortfolioDTO.class);
@@ -75,9 +74,9 @@ public class PortfolioService {
         return null;
     }
 
-    public PortfolioDTO addPortfolioItem(Long user_id, PortfolioItemDTO item) {
+    public PortfolioDTO addPortfolioItem(Long profile_id, PortfolioItemDTO item) {
 
-        Portfolio p = getPortfolioFromUserId(user_id);
+        Portfolio p = getPortfolioFromProfileId(profile_id);
 
         if(p == null) {
             return null;

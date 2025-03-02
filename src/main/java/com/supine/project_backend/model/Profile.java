@@ -1,8 +1,6 @@
 package com.supine.project_backend.model;
 
 import java.time.Instant;
-import java.util.Collection;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -10,23 +8,16 @@ import jakarta.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.locationtech.jts.geom.Point;
 
 //refactor to profile
 
 @Entity
-@Table(name = "users")
-public class User implements UserDetails {
+@Table(name = "profiles")
+public class Profile  {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String phone;
-    @Column(unique = true, nullable = false)
-    private String email;
-    @Column(nullable = false)
-    private String passwordHash;
     private String firstName;
     private String lastName;
 
@@ -38,21 +29,16 @@ public class User implements UserDetails {
 
 
     private boolean isProvider;
+    private boolean hasOboarded = false;
 
-    //location in profile class
+    private Point location;
     
-
 
     @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, optional = true, orphanRemoval = true)
     @JoinColumn(name = "service_provider_id", referencedColumnName = "id")
-    private ServiceProvider serviceProvider;
+    private Vendor vendor;
     
-    //auth
-
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
 
 
     //getters
@@ -61,13 +47,6 @@ public class User implements UserDetails {
         return id;
     }
     
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getUsername() {
-        return email;
-    }   
 
     public String getFirstName() {
         return firstName;
@@ -85,17 +64,20 @@ public class User implements UserDetails {
         return updatedAt;
     }
 
-
     public boolean isProvider() {
         return isProvider;
     }   
 
-    public ServiceProvider getServiceProvider() {
-        return serviceProvider;
+    public Vendor getVendor() {
+        return vendor;
     }
 
-    public String getPassword() {
-        return passwordHash;
+    public Point getLocation() {
+        return location;
+    }
+
+    public boolean getHasOnboarded() {
+        return hasOboarded;
     }
 
 
@@ -109,15 +91,7 @@ public class User implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
-    }       
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }   
-
-    public void setEmail(String email) {
-        this.email = email;
-    }   
+    }         
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -140,14 +114,17 @@ public class User implements UserDetails {
         this.isProvider = isProvider;
     }   
 
-    public void setServiceProvider(ServiceProvider serviceProvider) {
-        this.serviceProvider = serviceProvider;
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }   
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setLocation(Point location) {
+        this.location = location;
     }
 
+    public void setHasOnboarded(boolean hasOboarded) {
+        this.hasOboarded = hasOboarded;
+    }
  
 
 }

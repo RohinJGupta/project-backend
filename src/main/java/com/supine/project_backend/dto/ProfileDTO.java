@@ -2,9 +2,9 @@ package com.supine.project_backend.dto;
 
 
 
-public class NewUserDTO {
+public class ProfileDTO {
 
-
+    private Long id;
     private String phone;
     private String email;
     private String passwordHash;
@@ -15,6 +15,9 @@ public class NewUserDTO {
 
     // Getters and Setters
 
+    public Long getId() {
+        return id;
+    }
 
     public String getPhone() {
         return phone;
