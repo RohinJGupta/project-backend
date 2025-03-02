@@ -15,7 +15,7 @@ import jakarta.validation.Valid;
 
 import com.supine.project_backend.dto.PortfolioDTO;
 import com.supine.project_backend.dto.PortfolioItemDTO;
-import com.supine.project_backend.dto.ServiceProviderDTO;
+import com.supine.project_backend.dto.VendorDTO;
 
 import java.net.URI;
 import java.util.List;
@@ -29,7 +29,7 @@ public class PortfolioController {
 
     
     @GetMapping("/api/portfolios/me")
-    public ResponseEntity<ServiceProviderDTO> getMe() {
+    public ResponseEntity<VendorDTO> getMe() {
         //TODO - Along with other "me" APIs - Might only be Get
         return null;
     }

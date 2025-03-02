@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 import org.locationtech.jts.geom.Point;
 
-public class ServiceProviderDTO {
+public class VendorDTO {
 
 
     private Long id;

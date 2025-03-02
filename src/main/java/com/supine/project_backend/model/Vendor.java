@@ -16,8 +16,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 //refactor to vendor
 
 @Entity
-@Table(name = "service_providers")
-public class ServiceProvider {
+@Table(name = "vendors")
+public class Vendor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class ServiceProvider {
     private Portfolio portfolio;
 
     @JsonBackReference
-    @OneToOne(mappedBy = "serviceProvider")
+    @OneToOne(mappedBy = "vendor")
     private Profile profile;
 
     @Column(nullable = true)

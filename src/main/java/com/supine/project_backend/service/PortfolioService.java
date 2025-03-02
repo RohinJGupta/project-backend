@@ -41,7 +41,7 @@ public class PortfolioService {
             return null;
         }
 
-        Portfolio existingPortfolio = portfolioRepository.findById(existingProfile.getServiceProvider().getId()).orElse(null);
+        Portfolio existingPortfolio = portfolioRepository.findById(existingProfile.getVendor().getId()).orElse(null);
         return existingPortfolio;
     }
 
@@ -50,7 +50,7 @@ public class PortfolioService {
         if (existingProfile == null) {
             return null;
         }
-        Portfolio existingPortfolio = existingProfile.getServiceProvider().getPortfolio();
+        Portfolio existingPortfolio = existingProfile.getVendor().getPortfolio();
         return modelMapper.map(existingPortfolio, PortfolioDTO.class);
     }
 

@@ -44,7 +44,7 @@ public class Portfolio {
 
     @JsonBackReference
     @OneToOne(mappedBy = "portfolio")
-    private ServiceProvider serviceProvider;
+    private Vendor vendor;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -60,8 +60,8 @@ public class Portfolio {
         return id;
     }       
 
-    public ServiceProvider getServiceProvider() {
-        return serviceProvider;
+    public Vendor getVendor() {
+        return vendor;
     }   
 
     public List<PortfolioItem> getItems() {
@@ -91,8 +91,8 @@ public class Portfolio {
         this.id = id;
     }      
 
-    public void setServiceProvider(ServiceProvider serviceProvider) {
-        this.serviceProvider = serviceProvider;
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }                      
 
     public void setItems(ArrayList<PortfolioItem> items) {

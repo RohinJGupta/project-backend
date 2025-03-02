@@ -10,30 +10,30 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.supine.project_backend.service.ServiceProviderService;
+import com.supine.project_backend.service.VendorService;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import jakarta.validation.Valid;
 
-import com.supine.project_backend.dto.ServiceProviderDTO;
+import com.supine.project_backend.dto.VendorDTO;
 
 
 @RestController
-public class ServiceProviderController {
+public class VendorController {
     @Autowired
-    private ServiceProviderService serviceProviderService;
+    private VendorService vendorService;
 
 
     @GetMapping("/api/providers/me")
-    public ResponseEntity<ServiceProviderDTO> getMe() {
+    public ResponseEntity<VendorDTO> getMe() {
         //TODO - Along with other "me" APIs - Might only be Get
         return null;
     }
 
     @GetMapping("/api/providers/{profile_id}")
-    public ResponseEntity<ServiceProviderDTO> getServiceProvider(@PathVariable Long profile_id) {
+    public ResponseEntity<VendorDTO> getVendor(@PathVariable Long profile_id) {
         //if null return null
-        ServiceProviderDTO res = serviceProviderService.getServiceProvider(profile_id);
+        VendorDTO res = vendorService.getVendor(profile_id);
         if(res != null) {
             return ResponseEntity.ok().body(res);
         }
@@ -43,8 +43,8 @@ public class ServiceProviderController {
     }
 
     @PutMapping("/api/providers/{profile_id}")
-    public ResponseEntity<ServiceProviderDTO> updateServiceProvider(@PathVariable Long profile_id, @Valid @RequestBody ServiceProviderDTO spDTO) {
-        ServiceProviderDTO res = serviceProviderService.updateServiceProvider(profile_id, spDTO);
+    public ResponseEntity<VendorDTO> updateVendor(@PathVariable Long profile_id, @Valid @RequestBody VendorDTO vDTO) {
+        VendorDTO res = vendorService.updateVendor(profile_id, vDTO);
         if(res != null) {
             return ResponseEntity.ok().body(res);
         }
@@ -59,8 +59,8 @@ public class ServiceProviderController {
 
 
     // @PostMapping("/api/service-providers/create-sp/{profile_id}")
-    // public ServiceProvider createServiceProvider(@PathVariable Long profile_id, @Valid @RequestBody ServiceProvider sp) {
-    //     return serviceProviderService.createServiceProvider(profile_id, sp);
+    // public vendor createvendor(@PathVariable Long profile_id, @Valid @RequestBody vendor sp) {
+    //     return vendorService.createvendor(profile_id, sp);
     // }
 
     //will need to seperate /api/sp/me and /api/profiles/get-sp/{id} using auth first and path var second

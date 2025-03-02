@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.supine.project_backend.model.Profile;
 import com.supine.project_backend.repository.ProfileRepository;
-import com.supine.project_backend.model.ServiceProvider;
+import com.supine.project_backend.model.Vendor;
 import com.supine.project_backend.model.Portfolio;
 import com.supine.project_backend.dto.ProfileDTO;
 
@@ -38,17 +38,17 @@ public class ProfileService {
         modelMapper.map(profileDTO, newProfile); 
         
         if(!newProfile.isProvider()) {
-            newProfile.setServiceProvider(null);
+            newProfile.setVendor(null);
         } else {
-            ServiceProvider serviceProvider = new ServiceProvider();
+            Vendor vendor = new Vendor();
             Portfolio portfolio = new Portfolio();
             
             // Set up bidirectional relationships
-            serviceProvider.setProfile(newProfile);
-            newProfile.setServiceProvider(serviceProvider);
+            vendor.setProfile(newProfile);
+            newProfile.setVendor(vendor);
             
-            portfolio.setServiceProvider(serviceProvider);
-            serviceProvider.setPortfolio(portfolio);
+            portfolio.setVendor(vendor);
+            vendor.setPortfolio(portfolio);
 
             portfolio.setItems(new ArrayList<>());
         }

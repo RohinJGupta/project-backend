@@ -37,7 +37,7 @@ public class Profile  {
     @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, optional = true, orphanRemoval = true)
     @JoinColumn(name = "service_provider_id", referencedColumnName = "id")
-    private ServiceProvider serviceProvider;
+    private Vendor vendor;
     
 
 
@@ -64,13 +64,12 @@ public class Profile  {
         return updatedAt;
     }
 
-
     public boolean isProvider() {
         return isProvider;
     }   
 
-    public ServiceProvider getServiceProvider() {
-        return serviceProvider;
+    public Vendor getVendor() {
+        return vendor;
     }
 
     public Point getLocation() {
@@ -115,8 +114,8 @@ public class Profile  {
         this.isProvider = isProvider;
     }   
 
-    public void setServiceProvider(ServiceProvider serviceProvider) {
-        this.serviceProvider = serviceProvider;
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }   
 
     public void setLocation(Point location) {
