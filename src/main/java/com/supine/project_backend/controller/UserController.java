@@ -39,7 +39,7 @@ public class UserController {
 
 
     @PostMapping("/api/v1/users")
-    public ResponseEntity<UserDTO> createprofile(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
         UserDTO res = userService.createUser(userDTO);
         if(res != null) {
             return ResponseEntity.created(URI.create("/api/users/" + res.getId())).body(res);
