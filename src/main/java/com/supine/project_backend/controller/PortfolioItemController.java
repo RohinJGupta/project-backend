@@ -19,7 +19,7 @@ public class PortfolioItemController {
     @Autowired
     private PortfolioItemService portfolioItemService;
 
-    @GetMapping("/api/items/{item-id}")
+    @GetMapping("/api/v1/items/{item-id}")
     public ResponseEntity<PortfolioItemDTO> getPortfolioItem(@PathVariable Long item_id) {
         PortfolioItemDTO res = portfolioItemService.getPortfolioItem(item_id);
         if(res != null) {
@@ -31,7 +31,7 @@ public class PortfolioItemController {
     }
 
 
-    @DeleteMapping("/api/items/{item-id}")
+    @DeleteMapping("/api/v1/items/{item-id}")
     public ResponseEntity<Void> deletePortfolioItem(@PathVariable Long item_id) {
         boolean isDeleted = portfolioItemService.deletePortfolioItem(item_id);
         
@@ -44,7 +44,7 @@ public class PortfolioItemController {
     } 
 
     
-    @PutMapping("/api/items/{item-id}")
+    @PutMapping("/api/v1/items/{item-id}")
     public ResponseEntity<PortfolioItemDTO> updatePortfolioItem(@PathVariable Long item_id, @Valid @RequestBody PortfolioItemDTO portfolioItemDTO) {
         PortfolioItemDTO res = portfolioItemService.updatePortfolioItem(item_id, portfolioItemDTO);
         if(res != null) {

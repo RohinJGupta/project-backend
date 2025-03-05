@@ -28,13 +28,13 @@ public class PortfolioController {
     private PortfolioService portfolioService;
 
     
-    @GetMapping("/api/portfolios/me")
+    @GetMapping("/api/v1/portfolios/me")
     public ResponseEntity<VendorDTO> getMe() {
         //TODO - Along with other "me" APIs - Might only be Get
         return null;
     }
 
-    @GetMapping("/api/portfolios/{profile_id}")
+    @GetMapping("/api/v1/portfolios/{profile_id}")
     public ResponseEntity<PortfolioDTO> getPortfolio(@PathVariable Long profile_id) {
         PortfolioDTO res = portfolioService.getPortfolio(profile_id);
         if(res != null) {
@@ -46,7 +46,7 @@ public class PortfolioController {
     }
 
     //Implement "me" equivalent
-    @GetMapping("/api/portfolios/all/{profile_id}")
+    @GetMapping("/api/v1/portfolios/all/{profile_id}")
     public ResponseEntity<List<PortfolioItemDTO>> getAllItems(@PathVariable Long profile_id) {
         List<PortfolioItemDTO> list = portfolioService.getAllItems(profile_id);
 
@@ -62,7 +62,7 @@ public class PortfolioController {
     }
 
 
-    @PostMapping("/api/portfolios/{profile_id}")
+    @PostMapping("/api/v1/portfolios/{profile_id}")
     public ResponseEntity<PortfolioDTO> addPortfolioItem(@PathVariable Long profile_id, @Valid @RequestBody PortfolioItemDTO portfolioItemDTO) {
         PortfolioDTO portfolioDTO = portfolioService.addPortfolioItem(profile_id, portfolioItemDTO);
         if(portfolioDTO != null) {
@@ -73,7 +73,7 @@ public class PortfolioController {
         }
     }
 
-    @PutMapping("/api/portfolios/{profile_id}")
+    @PutMapping("/api/v1/portfolios/{profile_id}")
     public ResponseEntity<PortfolioDTO> updatePortfolio(@PathVariable Long profile_id, @Valid @RequestBody PortfolioDTO portfolioDTO) {
 
         PortfolioDTO res = portfolioService.updatePortfolio(profile_id, portfolioDTO);

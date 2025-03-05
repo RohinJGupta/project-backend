@@ -24,13 +24,13 @@ public class VendorController {
     private VendorService vendorService;
 
 
-    @GetMapping("/api/providers/me")
+    @GetMapping("/api/v1/providers/me")
     public ResponseEntity<VendorDTO> getMe() {
         //TODO - Along with other "me" APIs - Might only be Get
         return null;
     }
 
-    @GetMapping("/api/providers/{profile_id}")
+    @GetMapping("/api/v1/providers/{profile_id}")
     public ResponseEntity<VendorDTO> getVendor(@PathVariable Long profile_id) {
         //if null return null
         VendorDTO res = vendorService.getVendor(profile_id);
@@ -42,7 +42,7 @@ public class VendorController {
         }
     }
 
-    @PutMapping("/api/providers/{profile_id}")
+    @PutMapping("/api/v1/providers/{profile_id}")
     public ResponseEntity<VendorDTO> updateVendor(@PathVariable Long profile_id, @Valid @RequestBody VendorDTO vDTO) {
         VendorDTO res = vendorService.updateVendor(profile_id, vDTO);
         if(res != null) {

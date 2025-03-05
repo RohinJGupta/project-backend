@@ -19,14 +19,14 @@ public class ProfileController {
 
 
 
-    @GetMapping("/api/profiles/me")
+    @GetMapping("/api/v1/profiles/me")
     public ResponseEntity<ProfileDTO> getMe() {
         //TODO - Along with other "me" APIs - Might only be Get
         return null;
     }
        
 
-    @GetMapping("/api/profiles/{id}")
+    @GetMapping("/api/v1/profiles/{id}")
     public ResponseEntity<ProfileDTO> getprofile(@PathVariable Long id) {
         ProfileDTO res = profileService.getProfile(id);
         if(res != null) {
@@ -38,7 +38,7 @@ public class ProfileController {
     }
 
 
-    @PostMapping("/api/profiles")
+    @PostMapping("/api/v1/profiles")
     public ResponseEntity<ProfileDTO> createprofile(@Valid @RequestBody ProfileDTO profileDTO) {
         ProfileDTO res = profileService.createProfile(profileDTO);
         if(res != null) {
@@ -52,7 +52,7 @@ public class ProfileController {
 
 
 
-    @PutMapping("/api/profiles/{id}")
+    @PutMapping("/api/v1/profiles/{id}")
     public ResponseEntity<ProfileDTO> updateprofile(@PathVariable Long id, @Valid @RequestBody ProfileDTO profileDTO) {
         ProfileDTO res = profileService.updateProfile(id, profileDTO);
         if(res != null) {
@@ -63,7 +63,7 @@ public class ProfileController {
         }
     }
 
-    @DeleteMapping("/api/profiles/{id}")
+    @DeleteMapping("/api/v1/profiles/{id}")
     public ResponseEntity<Void> deleteprofile(@PathVariable Long id) {
         boolean isDeleted = profileService.deleteProfile(id);
         
