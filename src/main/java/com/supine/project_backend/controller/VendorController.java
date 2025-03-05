@@ -30,10 +30,10 @@ public class VendorController {
         return null;
     }
 
-    @GetMapping("/api/v1/providers/{profile_id}")
-    public ResponseEntity<VendorDTO> getVendor(@PathVariable Long profile_id) {
+    @GetMapping("/api/v1/providers/{user_id}")
+    public ResponseEntity<VendorDTO> getVendor(@PathVariable Long user_id) {
         //if null return null
-        VendorDTO res = vendorService.getVendor(profile_id);
+        VendorDTO res = vendorService.getVendor(user_id);
         if(res != null) {
             return ResponseEntity.ok().body(res);
         }
@@ -42,9 +42,9 @@ public class VendorController {
         }
     }
 
-    @PutMapping("/api/v1/providers/{profile_id}")
-    public ResponseEntity<VendorDTO> updateVendor(@PathVariable Long profile_id, @Valid @RequestBody VendorDTO vDTO) {
-        VendorDTO res = vendorService.updateVendor(profile_id, vDTO);
+    @PutMapping("/api/v1/providers/{user_id}")
+    public ResponseEntity<VendorDTO> updateVendor(@PathVariable Long user_id, @Valid @RequestBody VendorDTO vDTO) {
+        VendorDTO res = vendorService.updateVendor(user_id, vDTO);
         if(res != null) {
             return ResponseEntity.ok().body(res);
         }
@@ -58,9 +58,9 @@ public class VendorController {
 }
 
 
-    // @PostMapping("/api/service-providers/create-sp/{profile_id}")
-    // public vendor createvendor(@PathVariable Long profile_id, @Valid @RequestBody vendor sp) {
-    //     return vendorService.createvendor(profile_id, sp);
+    // @PostMapping("/api/service-providers/create-sp/{user_id}")
+    // public vendor createvendor(@PathVariable Long user_id, @Valid @RequestBody vendor sp) {
+    //     return vendorService.createvendor(user_id, sp);
     // }
 
-    //will need to seperate /api/sp/me and /api/profiles/get-sp/{id} using auth first and path var second
+    //will need to seperate /api/sp/me and /api/users/get-sp/{id} using auth first and path var second

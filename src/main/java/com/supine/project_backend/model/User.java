@@ -10,12 +10,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.locationtech.jts.geom.Point;
 
-//refactor to profile
+//refactor to user
 
 @Entity
-@Table(name = "profiles")
-public class Profile  {
+@Table(name = "users")
+public class User  {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String firstName;
@@ -36,7 +37,7 @@ public class Profile  {
 
     @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, optional = true, orphanRemoval = true)
-    @JoinColumn(name = "service_provider_id", referencedColumnName = "id")
+    @JoinColumn(name = "vendor_id", referencedColumnName = "id")
     private Vendor vendor;
     
 

@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.supine.project_backend.dto.VendorDTO;
 import com.supine.project_backend.model.Vendor;
-import com.supine.project_backend.model.Profile;
+import com.supine.project_backend.model.User;
 import com.supine.project_backend.repository.VendorRepository;
-import com.supine.project_backend.repository.ProfileRepository;
+import com.supine.project_backend.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -18,7 +18,7 @@ public class VendorService {
     VendorRepository vendorRepository;
 
     @Autowired
-    ProfileRepository profileRepository;
+    UserRepository userRepository;
 
     @Autowired
     ModelMapper modelMapper;
@@ -28,26 +28,26 @@ public class VendorService {
         return vendorRepository.save(vendor);
     }
 
-    private Vendor getVendorFromprofileId(Long profile_id) {
-        Profile existingProfile = profileRepository.findById(profile_id).orElse(null);
+    private Vendor getVendorFromUserId(Long user_id) {
+        User existingUser = userRepository.findById(user_id).orElse(null);
 
-        if(existingProfile == null) {
+        if(existingUser == null) {
             return null;
         }
 
-        // vendor existingSP = vendorRepository.findById(existingprofile.getvendor().getId()).orElse(null);
-        Vendor existingVendor = existingProfile.getVendor();
+        // vendor existingSP = vendorRepository.findById(existinguser.getvendor().getId()).orElse(null);
+        Vendor existingVendor = existingUser.getVendor();
         return existingVendor;
     }
 
 
-    public VendorDTO getVendor(Long profile_id) {
-        return modelMapper.map(getVendorFromprofileId(profile_id), VendorDTO.class);
+    public VendorDTO getVendor(Long user_id) {
+        return modelMapper.map(getVendorFromUserId(user_id), VendorDTO.class);
     }
 
   
-    public VendorDTO updateVendor(Long profile_id, VendorDTO spDTO) {
-        Vendor existingVendor = getVendorFromprofileId(profile_id);
+    public VendorDTO updateVendor(Long user_id, VendorDTO spDTO) {
+        Vendor existingVendor = getVendorFromUserId(user_id);
         if (existingVendor != null) {
             modelMapper.map(spDTO, existingVendor);
             return modelMapper.map(vendorRepository.save(existingVendor), VendorDTO.class);
@@ -63,12 +63,12 @@ public class VendorService {
 
     //}
 
-      // public vendorDTO getvendor(Long profile_id) {
-    //     profile existingprofile = profileRepository.findById(profile_id).orElse(null);
-    //     if (existingprofile == null) {
+      // public vendorDTO getvendor(Long user_id) {
+    //     user existinguser = userRepository.findById(user_id).orElse(null);
+    //     if (existinguser == null) {
     //         return null;
     //     }
-    //     vendor existingSP = existingprofile.getvendor();
+    //     vendor existingSP = existinguser.getvendor();
    
     // }
     

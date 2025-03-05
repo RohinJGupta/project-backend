@@ -2,7 +2,7 @@ package com.supine.project_backend.dto;
 
 
 
-public class ProfileDTO {
+public class UserDTO {
 
     private Long id;
     private String phone;
