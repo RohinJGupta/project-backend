@@ -24,7 +24,7 @@ public class VendorController {
     private VendorService vendorService;
 
 
-    @GetMapping("/api/v1/providers/me")
+    @GetMapping("/api/v1/me/providers")
     public ResponseEntity<VendorDTO> getMe() {
         //TODO - Along with other "me" APIs - Might only be Get
         return null;

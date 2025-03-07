@@ -28,7 +28,7 @@ public class PortfolioController {
     private PortfolioService portfolioService;
 
     
-    @GetMapping("/api/v1/portfolios/me")
+    @GetMapping("/api/v1/me/portfolios")
     public ResponseEntity<VendorDTO> getMe() {
         //TODO - Along with other "me" APIs - Might only be Get
         return null;

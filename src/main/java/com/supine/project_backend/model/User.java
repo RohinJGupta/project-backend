@@ -3,6 +3,7 @@ package com.supine.project_backend.model;
 import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.supine.project_backend.enums.UserRole;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,16 +13,20 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.locationtech.jts.geom.Point;
+import org.springframework.security.core.userdetails.UserDetails;
 
 //refactor to user
 
 @Entity
 @Table(name = "users")
 @Getter @Setter @NoArgsConstructor
-public class User  {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
 
     private String firstName;
     private String lastName;

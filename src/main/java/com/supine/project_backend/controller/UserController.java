@@ -19,7 +19,7 @@ public class UserController {
 
 
 
-    @GetMapping("/api/v1/users/me")
+    @GetMapping("/api/v1/me/users")
     public ResponseEntity<UserDTO> getMe() {
         //TODO - Along with other "me" APIs - Might only be Get
         return null;
