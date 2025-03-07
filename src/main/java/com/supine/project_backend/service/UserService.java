@@ -78,6 +78,7 @@ public class UserService {
             return modelMapper.map(userRepository.save(existingUser), UserDTO.class);
         }
         return null;
+        
     }
 
     @Transactional

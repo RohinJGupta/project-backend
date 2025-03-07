@@ -46,7 +46,7 @@ public class User implements UserDetails {
     @UpdateTimestamp
     private Instant updatedAt;
 
-
+    private boolean isVerified;
     private boolean isProvider;
     private boolean hasOboarded = false;
 
@@ -75,6 +75,26 @@ public class User implements UserDetails {
     @Override
     public String getPassword() {
         return passwordHash;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+      return true;
+    }
+  
+    @Override
+    public boolean isAccountNonLocked() {
+      return true;
+    }
+  
+    @Override
+    public boolean isCredentialsNonExpired() {
+      return true;
+    }
+  
+    @Override
+    public boolean isEnabled() {
+      return true;
     }
     
 

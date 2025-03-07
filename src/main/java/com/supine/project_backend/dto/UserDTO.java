@@ -1,7 +1,11 @@
 package com.supine.project_backend.dto;
 
+import org.locationtech.jts.geom.Point;
 
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
 public class UserDTO {
 
     private Long id;
@@ -12,6 +16,8 @@ public class UserDTO {
     private String lastName;
     private boolean isVerified;
     private boolean isProvider;
+    private boolean hasOboarded;
+    private Point location;
 
     // Getters and Setters
 
