@@ -1,10 +1,7 @@
 package com.supine.project_backend.config.auth;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.time.temporal.TemporalUnit;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,8 +21,7 @@ public class TokenProvider {
         try {
             Algorithm alg = Algorithm.HMAC256(JWT_SECRET);
             return JWT.create()
-                .withSubject(user.getFirstName())
-                .withClaim("user_email", user.getEmail())
+                .withSubject(user.getEmail())
                 .withClaim("user_id", user.getId())
                 .withExpiresAt(getAccessExpirationDate())
                 .sign(alg);
