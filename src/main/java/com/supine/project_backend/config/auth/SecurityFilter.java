@@ -1,17 +1,17 @@
 package com.supine.project_backend.config.auth;
 
 import java.io.IOException;
-import java.net.Authenticator;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.supine.project_backend.model.User;
+
 import com.supine.project_backend.repository.UserRepository;
 
 import jakarta.servlet.FilterChain;
