@@ -2,6 +2,9 @@ package com.supine.project_backend.model;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -13,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "portfolio_items")
+@Getter @Setter @NoArgsConstructor
 public class PortfolioItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

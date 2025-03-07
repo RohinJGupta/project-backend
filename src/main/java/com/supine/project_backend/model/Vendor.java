@@ -2,6 +2,9 @@ package com.supine.project_backend.model;
 
 
 import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -17,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "vendors")
+@Getter @Setter @NoArgsConstructor
 public class Vendor {
 
     @Id

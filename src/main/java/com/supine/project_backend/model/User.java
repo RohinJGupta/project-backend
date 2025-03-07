@@ -5,6 +5,9 @@ import java.time.Instant;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -14,6 +17,7 @@ import org.locationtech.jts.geom.Point;
 
 @Entity
 @Table(name = "users")
+@Getter @Setter @NoArgsConstructor
 public class User  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
