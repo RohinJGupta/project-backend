@@ -1,6 +1,8 @@
 package com.supine.project_backend.model;
 
 import java.time.Instant;
+import java.util.Collection;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.supine.project_backend.enums.UserRole;
@@ -13,6 +15,9 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.locationtech.jts.geom.Point;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 
 //refactor to user
@@ -52,6 +57,25 @@ public class User implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL, optional = true, orphanRemoval = true)
     @JoinColumn(name = "vendor_id", referencedColumnName = "id")
     private Vendor vendor;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if(this.userRole == UserRole.ADMIN) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        }
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return passwordHash;
+    }
     
 
 }
