@@ -17,7 +17,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.locationtech.jts.geom.Point;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 
 //refactor to user
