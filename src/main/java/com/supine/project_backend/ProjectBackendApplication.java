@@ -20,4 +20,4 @@ public class ProjectBackendApplication {
 //may need to use dto for updates since we are not passing in all fields, just certain ones that are allowed by the UI
 //create trigger in supabase before testing for adding users
 //then create supabase client sign-in/sign-up service on backend
-//explore webhook vs trigger - use a butterfly flow to see which one is best
+//use a butterfly flow to see which one is best
