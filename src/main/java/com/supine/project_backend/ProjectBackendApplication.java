@@ -21,3 +21,4 @@ public class ProjectBackendApplication {
 //create trigger in supabase before testing for adding users
 //then create supabase client sign-in/sign-up service on backend
 //use a butterfly flow to see which one is best
+//Ideas: Marketing tool with AI trend detection and sounds, Food waste discount app.
