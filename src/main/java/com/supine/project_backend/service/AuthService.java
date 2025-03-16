@@ -3,6 +3,7 @@ package com.supine.project_backend.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.supine.project_backend.dto.SignUpDTO;
 import com.supine.project_backend.model.User;
@@ -10,6 +11,7 @@ import com.supine.project_backend.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 
+@Service
 public class AuthService {
     @Autowired
     UserRepository userRepository;
