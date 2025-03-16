@@ -26,9 +26,9 @@ public class AuthService {
         return user;
     }
 
-    public UserDetails signUp(SignUpDTO signUpDTO) throws Exception {
+    public User signUp(SignUpDTO signUpDTO) {
         if (loadUserByEmail(signUpDTO.getEmail()) != null) {
-            throw new Exception("User already exists!");
+            return null;
         }
         String passwordHash = new BCryptPasswordEncoder().encode(signUpDTO.getPassword());
         User newUser = new User(signUpDTO.getEmail(), passwordHash, signUpDTO.getUserRole());
