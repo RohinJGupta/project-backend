@@ -2,6 +2,7 @@ package com.supine.project_backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import com.supine.project_backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 
 @Service
-public class AuthService {
+public class AuthService implements UserDetailsService{
     @Autowired
     UserRepository userRepository;
 
@@ -21,13 +22,14 @@ public class AuthService {
       return userRepository.save(user);
     }
 
-    public UserDetails loadUserByEmail(String email) {
+    @Override
+    public UserDetails loadUserByUsername(String email) {
         UserDetails user = userRepository.findByEmail(email).orElse(null);
         return user;
     }
 
     public User signUp(SignUpDTO signUpDTO) {
-        if (loadUserByEmail(signUpDTO.getEmail()) != null) {
+        if (loadUserByUsername(signUpDTO.getEmail()) != null) {
             return null;
         }
         String passwordHash = new BCryptPasswordEncoder().encode(signUpDTO.getPassword());

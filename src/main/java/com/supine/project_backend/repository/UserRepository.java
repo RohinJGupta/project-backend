@@ -9,6 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.supine.project_backend.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long>{
-    @Query("SELECT USER FROM PUBLIC.USERS WHERE LOWER(USER.EMAIL) = LOWER(?1)")
+    @Query("SELECT u FROM User u WHERE LOWER(u.email) = LOWER(?1)")
     Optional<User> findByEmail(String email);
 }

@@ -48,7 +48,7 @@ public class User implements UserDetails {
 
     private boolean isVerified;
     private boolean isProvider;
-    private boolean hasOboarded = false;
+    private boolean hasOnboarded = false;
 
     private Point location;
 
