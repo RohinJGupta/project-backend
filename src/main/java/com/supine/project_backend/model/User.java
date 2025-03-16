@@ -51,6 +51,12 @@ public class User implements UserDetails {
     private boolean hasOboarded = false;
 
     private Point location;
+
+    public User(String email, String passwordHash, UserRole userRole) {
+      this.email = email;
+      this.passwordHash = passwordHash;
+      this.userRole = userRole;
+    }
     
 
     @JsonManagedReference

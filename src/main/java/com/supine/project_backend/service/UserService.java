@@ -72,12 +72,39 @@ public class UserService {
 
    
     public UserDTO updateUser(Long id, UserDTO userDTO) {
+        // User existingUser = userRepository.findById(id).orElse(null);
+        // if (existingUser != null) {
+        //     modelMapper.map(userDTO, existingUser);
+        //     return modelMapper.map(userRepository.save(existingUser), UserDTO.class);
+        // }
+        // return null;
+
         User existingUser = userRepository.findById(id).orElse(null);
         if (existingUser != null) {
             modelMapper.map(userDTO, existingUser);
+            if(!existingUser.isProvider()) {
+                existingUser.setVendor(null);
+            } else {
+                Vendor vendor = new Vendor();
+                Portfolio portfolio = new Portfolio();
+                
+                // Set up bidirectional relationships
+                vendor.setUser(existingUser);
+                existingUser.setVendor(vendor);
+                
+                portfolio.setVendor(vendor);
+                vendor.setPortfolio(portfolio);
+    
+                portfolio.setItems(new ArrayList<>());
+            }
+    
             return modelMapper.map(userRepository.save(existingUser), UserDTO.class);
         }
         return null;
+
+
+        
+       
         
     }
 
