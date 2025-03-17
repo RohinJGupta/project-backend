@@ -11,7 +11,6 @@ public class UserDTO {
     private Long id;
     private String phone;
     private String email;
-    private String passwordHash;
     private String firstName;
     private String lastName;
     private boolean isVerified;
@@ -41,13 +40,6 @@ public class UserDTO {
         this.email = email;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
 
     public String getFirstName() {
         return firstName;

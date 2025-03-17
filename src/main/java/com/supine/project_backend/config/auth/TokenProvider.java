@@ -12,6 +12,12 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.supine.project_backend.model.User;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+
 @Service
 public class TokenProvider {
     @Value("${security.jwt.secret-key}")
@@ -45,4 +51,17 @@ public class TokenProvider {
     public Instant getAccessExpirationDate() {
         return ZonedDateTime.now().plusHours(2).toInstant();
     }
+
+
+    public Long getIdFromJwt(String jwtToken) {
+        SecretKey key = Keys.hmacShaKeyFor(JWT_SECRET.getBytes(StandardCharsets.UTF_8));
+        Claims claims = Jwts.parserBuilder()
+                           .setSigningKey(key)
+                           .build()
+                           .parseClaimsJws(jwtToken)
+                           .getBody();
+        return Long.valueOf(claims.get("user_id").toString());
+    }
+
+   
 }

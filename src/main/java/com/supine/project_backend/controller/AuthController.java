@@ -46,11 +46,11 @@ public class AuthController {
     }
 
     @PostMapping("/api/v1/auth/signin")
-    public ResponseEntity<String> signIn(@RequestBody @Valid SignInDTO signInDTO) {
+    public ResponseEntity<JwtDTO> signIn(@RequestBody @Valid SignInDTO signInDTO) {
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(signInDTO.getEmail(), signInDTO.getPassword());
         Authentication authUser = authenticationManager.authenticate(usernamePassword);
         String accessToken = tokenProvider.generateToken((User)authUser.getPrincipal());
-        return ResponseEntity.ok(accessToken);
+        return ResponseEntity.ok(new JwtDTO(accessToken));
     }
 
     

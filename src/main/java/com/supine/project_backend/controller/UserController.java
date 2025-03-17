@@ -2,6 +2,8 @@ package com.supine.project_backend.controller;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.supine.project_backend.config.auth.TokenProvider;
+import com.supine.project_backend.dto.JwtDTO;
 import com.supine.project_backend.dto.UserDTO;
 import com.supine.project_backend.service.UserService;
 
@@ -11,18 +13,33 @@ import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 @RestController
 public class UserController {
 
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TokenProvider tokenProvider;
 
 
-    @GetMapping("/api/v1/me/users")
-    public ResponseEntity<UserDTO> getMe() {
+
+    @GetMapping("/api/v1/users/me")
+    public ResponseEntity<UserDTO> getUser(@RequestHeader("Authorization") String authToken) {
         //TODO - Along with other "me" APIs - Might only be Get
-        return null;
+        authToken = authToken.replace("Bearer ", "");
+
+        Long userId = tokenProvider.getIdFromJwt(authToken);
+        UserDTO res = userService.getUser(userId);
+        if(res != null) {
+            return ResponseEntity.ok().body(res);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
     }
        
 
