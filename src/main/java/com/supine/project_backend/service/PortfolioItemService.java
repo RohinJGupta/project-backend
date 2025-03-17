@@ -39,6 +39,7 @@ public class PortfolioItemService {
         return modelMapper.map(portfolioItemRepository.save(existingPortfolioItem), PortfolioItemDTO.class);
     }
 
+    //change to portfolio
     @Transactional
     public boolean deletePortfolioItem(Long item_id) {
         PortfolioItem portfolioItem = portfolioItemRepository.findById(item_id).orElse(null);
