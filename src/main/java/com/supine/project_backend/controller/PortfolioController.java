@@ -48,6 +48,33 @@ public class PortfolioController {
         }
     }
 
+    @PostMapping("/api/v1/portfolios/me")
+    public ResponseEntity<PortfolioDTO> addPortfolioItem(@RequestHeader("Authorization") String authToken, @Valid @RequestBody PortfolioItemDTO portfolioItemDTO) {
+        authToken = authToken.replace("Bearer ", "");
+        Long user_id = tokenProvider.getIdFromJwt(authToken);
+        PortfolioDTO portfolioDTO = portfolioService.addPortfolioItem(user_id, portfolioItemDTO);
+        if(portfolioDTO != null) {
+            return ResponseEntity.created(URI.create("/api/portfolios/" + user_id + "/items/" + portfolioDTO.getId())).body(portfolioDTO);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/api/v1/portfolios/me")
+    public ResponseEntity<PortfolioDTO> updatePortfolio(@RequestHeader("Authorization") String authToken, @Valid @RequestBody PortfolioDTO portfolioDTO) {
+        authToken = authToken.replace("Bearer ", "");
+        Long user_id = tokenProvider.getIdFromJwt(authToken);
+        PortfolioDTO res = portfolioService.updatePortfolio(user_id, portfolioDTO);
+        if(res != null) {
+            return ResponseEntity.ok().body(res);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
     @GetMapping("/api/v1/portfolios/{user_id}")
     public ResponseEntity<PortfolioDTO> getPortfolio(@PathVariable Long user_id) {
         PortfolioDTO res = portfolioService.getPortfolio(user_id);
@@ -60,45 +87,21 @@ public class PortfolioController {
     }
 
     //Implement "me" equivalent
-    @GetMapping("/api/v1/portfolios/all/{user_id}")
-    public ResponseEntity<List<PortfolioItemDTO>> getAllItems(@PathVariable Long user_id) {
-        List<PortfolioItemDTO> list = portfolioService.getAllItems(user_id);
+    // @GetMapping("/api/v1/portfolios/all/{user_id}")
+    // public ResponseEntity<List<PortfolioItemDTO>> getAllItems(@PathVariable Long user_id) {
+    //     List<PortfolioItemDTO> list = portfolioService.getAllItems(user_id);
 
-        if(list == null) {
-            return ResponseEntity.notFound().build();
-        }
-        else if (list.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        else {
-            return ResponseEntity.ok().body(list);
-        }
-    }
+    //     if(list == null) {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    //     else if (list.isEmpty()) {
+    //         return ResponseEntity.noContent().build();
+    //     }
+    //     else {
+    //         return ResponseEntity.ok().body(list);
+    //     }
+    // }
 
-
-    @PostMapping("/api/v1/portfolios/{user_id}")
-    public ResponseEntity<PortfolioDTO> addPortfolioItem(@PathVariable Long user_id, @Valid @RequestBody PortfolioItemDTO portfolioItemDTO) {
-        PortfolioDTO portfolioDTO = portfolioService.addPortfolioItem(user_id, portfolioItemDTO);
-        if(portfolioDTO != null) {
-            return ResponseEntity.created(URI.create("/api/portfolios/" + user_id + "/items/" + portfolioDTO.getId())).body(portfolioDTO);
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PutMapping("/api/v1/portfolios/{user_id}")
-    public ResponseEntity<PortfolioDTO> updatePortfolio(@PathVariable Long user_id, @Valid @RequestBody PortfolioDTO portfolioDTO) {
-
-        PortfolioDTO res = portfolioService.updatePortfolio(user_id, portfolioDTO);
-        if(res != null) {
-            return ResponseEntity.ok().body(res);
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
-
-    }
 }
 
 
