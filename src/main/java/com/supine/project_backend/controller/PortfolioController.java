@@ -35,11 +35,11 @@ public class PortfolioController {
 
     
     @GetMapping("/api/v1/portfolios/me")
-    public ResponseEntity<PortfolioDTO> getMe(@RequestHeader("Authorization") String authToken) {
+    public ResponseEntity<PortfolioDTO> getPortfolio(@RequestHeader("Authorization") String authToken) {
         //TODO - Along with other "me" APIs - Might only be Get
         authToken = authToken.replace("Bearer ", "");
-        Long id = tokenProvider.getIdFromJwt(authToken);
-        PortfolioDTO res = portfolioService.getPortfolio(id);
+        Long user_id = tokenProvider.getIdFromJwt(authToken);
+        PortfolioDTO res = portfolioService.getPortfolio(user_id);
         if(res != null) {
             return ResponseEntity.ok().body(res);
         }

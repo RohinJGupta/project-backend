@@ -31,12 +31,12 @@ public class VendorController {
 
 
     @GetMapping("/api/v1/providers/me")
-    public ResponseEntity<VendorDTO> getMe(@RequestHeader("Authorization") String authToken) {
+    public ResponseEntity<VendorDTO> getVendor(@RequestHeader("Authorization") String authToken) {
         //TODO - Along with other "me" APIs - Might only be Get
         authToken = authToken.replace("Bearer ", "");
 
-        Long id = tokenProvider.getIdFromJwt(authToken);
-        VendorDTO res = vendorService.getVendor(id);
+        Long user_id = tokenProvider.getIdFromJwt(authToken);
+        VendorDTO res = vendorService.getVendor(user_id);
         if(res != null) {
             return ResponseEntity.ok().body(res);
         }
@@ -59,7 +59,6 @@ public class VendorController {
         }
 
     }
-
 
     @GetMapping("/api/v1/providers/{user_id}")
     public ResponseEntity<VendorDTO> getVendor(@PathVariable Long user_id) {
