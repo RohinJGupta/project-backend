@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import com.supine.project_backend.service.VendorService;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import jakarta.validation.Valid;
 
+import com.supine.project_backend.config.auth.TokenProvider;
+import com.supine.project_backend.dto.UserDTO;
 import com.supine.project_backend.dto.VendorDTO;
 
 
@@ -23,12 +26,40 @@ public class VendorController {
     @Autowired
     private VendorService vendorService;
 
+    @Autowired
+    private TokenProvider tokenProvider;
 
-    @GetMapping("/api/v1/me/providers")
-    public ResponseEntity<VendorDTO> getMe() {
+
+    @GetMapping("/api/v1/providers/me")
+    public ResponseEntity<VendorDTO> getMe(@RequestHeader("Authorization") String authToken) {
         //TODO - Along with other "me" APIs - Might only be Get
-        return null;
+        authToken = authToken.replace("Bearer ", "");
+
+        Long id = tokenProvider.getIdFromJwt(authToken);
+        VendorDTO res = vendorService.getVendor(id);
+        if(res != null) {
+            return ResponseEntity.ok().body(res);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
     }
+
+    @PutMapping("/api/v1/providers/me")
+    public ResponseEntity<VendorDTO> updateVendor(@RequestHeader("Authorization") String authToken, @Valid @RequestBody VendorDTO vendorDTO) {
+        authToken = authToken.replace("Bearer ", "");
+
+        Long user_id = tokenProvider.getIdFromJwt(authToken);
+        VendorDTO res = vendorService.updateVendor(user_id, vendorDTO);
+        if(res != null) {
+            return ResponseEntity.ok().body(res);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
 
     @GetMapping("/api/v1/providers/{user_id}")
     public ResponseEntity<VendorDTO> getVendor(@PathVariable Long user_id) {
@@ -42,17 +73,6 @@ public class VendorController {
         }
     }
 
-    @PutMapping("/api/v1/providers/{user_id}")
-    public ResponseEntity<VendorDTO> updateVendor(@PathVariable Long user_id, @Valid @RequestBody VendorDTO vDTO) {
-        VendorDTO res = vendorService.updateVendor(user_id, vDTO);
-        if(res != null) {
-            return ResponseEntity.ok().body(res);
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
-
-    }
 
 
 }

@@ -31,7 +31,11 @@ public class AuthConfig {
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/me/**").hasRole("USER")
+                .requestMatchers(HttpMethod.PUT, "/api/v1/me/**").hasRole("USER")
                 .anyRequest().authenticated()
+
+                //change paths to /me/blah
+                
             )
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
             .build();

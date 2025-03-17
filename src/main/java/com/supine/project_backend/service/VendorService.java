@@ -42,7 +42,11 @@ public class VendorService {
 
 
     public VendorDTO getVendor(Long user_id) {
-        return modelMapper.map(getVendorFromUserId(user_id), VendorDTO.class);
+        Vendor existingVendor = getVendorFromUserId(user_id);
+        if (existingVendor != null) {
+            return modelMapper.map(existingVendor, VendorDTO.class);
+        }
+        return null;
     }
 
   

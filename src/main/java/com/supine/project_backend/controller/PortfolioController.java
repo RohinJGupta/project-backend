@@ -7,14 +7,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.supine.project_backend.service.PortfolioService;
 
 import jakarta.validation.Valid;
 
+import com.supine.project_backend.config.auth.TokenProvider;
 import com.supine.project_backend.dto.PortfolioDTO;
 import com.supine.project_backend.dto.PortfolioItemDTO;
+import com.supine.project_backend.dto.UserDTO;
 import com.supine.project_backend.dto.VendorDTO;
 
 import java.net.URI;
@@ -27,11 +30,22 @@ public class PortfolioController {
     @Autowired
     private PortfolioService portfolioService;
 
+    @Autowired
+    private TokenProvider tokenProvider;
+
     
-    @GetMapping("/api/v1/me/portfolios")
-    public ResponseEntity<VendorDTO> getMe() {
+    @GetMapping("/api/v1/portfolios/me")
+    public ResponseEntity<PortfolioDTO> getMe(@RequestHeader("Authorization") String authToken) {
         //TODO - Along with other "me" APIs - Might only be Get
-        return null;
+        authToken = authToken.replace("Bearer ", "");
+        Long id = tokenProvider.getIdFromJwt(authToken);
+        PortfolioDTO res = portfolioService.getPortfolio(id);
+        if(res != null) {
+            return ResponseEntity.ok().body(res);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/api/v1/portfolios/{user_id}")

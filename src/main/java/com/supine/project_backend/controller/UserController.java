@@ -13,9 +13,7 @@ import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 @RestController
 public class UserController {
 
@@ -32,10 +30,37 @@ public class UserController {
         //TODO - Along with other "me" APIs - Might only be Get
         authToken = authToken.replace("Bearer ", "");
 
-        Long userId = tokenProvider.getIdFromJwt(authToken);
-        UserDTO res = userService.getUser(userId);
+        Long id = tokenProvider.getIdFromJwt(authToken);
+        UserDTO res = userService.getUser(id);
         if(res != null) {
             return ResponseEntity.ok().body(res);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/api/v1/users/me")
+    public ResponseEntity<UserDTO> updateUser(@RequestHeader("Authorization") String authToken, @Valid @RequestBody UserDTO userDTO) {
+        authToken = authToken.replace("Bearer ", "");
+        Long id = tokenProvider.getIdFromJwt(authToken);
+        UserDTO res = userService.updateUser(id, userDTO);
+        if(res != null) {
+            return ResponseEntity.ok().body(res);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/api/v1/users/me")
+    public ResponseEntity<Void> deleteUser(@RequestHeader("Authorization") String authToken) {
+        authToken = authToken.replace("Bearer ", "");
+        Long id = tokenProvider.getIdFromJwt(authToken);
+        boolean isDeleted = userService.deleteUser(id);
+        
+        if(isDeleted) {
+            return ResponseEntity.noContent().build();
         }
         else {
             return ResponseEntity.notFound().build();
@@ -54,43 +79,54 @@ public class UserController {
         }
     }
 
-
-    @PostMapping("/api/v1/users")
-    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
-        UserDTO res = userService.createUser(userDTO);
-        if(res != null) {
-            return ResponseEntity.created(URI.create("/api/users/" + res.getId())).body(res);
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
+    // @GetMapping("/api/v1/users/all")
+    // public ResponseEntity<UserDTO> getAllUsers() {
+    //     UserDTO res = userService.getUser(id);
+    //     if(res != null) {
+    //         return ResponseEntity.ok().body(res);
+    //     }
+    //     else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }
 
 
+    // @PostMapping("/api/v1/users")
+    // public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
+    //     UserDTO res = userService.createUser(userDTO);
+    //     if(res != null) {
+    //         return ResponseEntity.created(URI.create("/api/users/" + res.getId())).body(res);
+    //     }
+    //     else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }
 
-    @PutMapping("/api/v1/users/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO) {
-        UserDTO res = userService.updateUser(id, userDTO);
-        if(res != null) {
-            return ResponseEntity.ok().body(res);
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 
-    @DeleteMapping("/api/v1/users/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        boolean isDeleted = userService.deleteUser(id);
+
+
+    // @PutMapping("/api/v1/users/{id}")
+    // public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO) {
+    //     UserDTO res = userService.updateUser(id, userDTO);
+    //     if(res != null) {
+    //         return ResponseEntity.ok().body(res);
+    //     }
+    //     else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }
+
+    // @DeleteMapping("/api/v1/users/{id}")
+    // public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    //     boolean isDeleted = userService.deleteUser(id);
         
-        if(isDeleted) {
-            return ResponseEntity.noContent().build();
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+    //     if(isDeleted) {
+    //         return ResponseEntity.noContent().build();
+    //     }
+    //     else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }
 
 }
 
