@@ -47,10 +47,14 @@ public class AuthController {
 
     @PostMapping("/api/v1/auth/signin")
     public ResponseEntity<JwtDTO> signIn(@RequestBody @Valid SignInDTO signInDTO) {
-        UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(signInDTO.getEmail(), signInDTO.getPassword());
-        Authentication authUser = authenticationManager.authenticate(usernamePassword);
-        String accessToken = tokenProvider.generateToken((User)authUser.getPrincipal());
-        return ResponseEntity.ok(new JwtDTO(accessToken));
+        try {
+            UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(signInDTO.getEmail(), signInDTO.getPassword());
+            Authentication authUser = authenticationManager.authenticate(usernamePassword);
+            String accessToken = tokenProvider.generateToken((User)authUser.getPrincipal());
+            return ResponseEntity.ok(new JwtDTO(accessToken));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     
