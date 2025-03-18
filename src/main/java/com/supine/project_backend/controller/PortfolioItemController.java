@@ -49,7 +49,7 @@ public class PortfolioItemController {
     // } 
 
     
-    @PutMapping("/api/v1/items/{item-id}")
+    @PutMapping("/api/v1/items/me/{item-id}")
     public ResponseEntity<PortfolioItemDTO> updatePortfolioItem(@RequestHeader("Authorization") String authToken, @PathVariable Long item_id, @Valid @RequestBody PortfolioItemDTO portfolioItemDTO) {
         authToken = authToken.replace("Bearer ", "");
         Long user_id = tokenProvider.getIdFromJwt(authToken);
