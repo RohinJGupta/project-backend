@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.supine.project_backend.config.auth.TokenProvider;
 import com.supine.project_backend.dto.PortfolioItemDTO;
 import com.supine.project_backend.service.PortfolioItemService;
 
@@ -18,6 +20,9 @@ import jakarta.validation.Valid;
 public class PortfolioItemController {
     @Autowired
     private PortfolioItemService portfolioItemService;
+
+    @Autowired
+    private TokenProvider tokenProvider;
 
     @GetMapping("/api/v1/items/{item-id}")
     public ResponseEntity<PortfolioItemDTO> getPortfolioItem(@PathVariable Long item_id) {
@@ -45,8 +50,10 @@ public class PortfolioItemController {
 
     
     @PutMapping("/api/v1/items/{item-id}")
-    public ResponseEntity<PortfolioItemDTO> updatePortfolioItem(@PathVariable Long item_id, @Valid @RequestBody PortfolioItemDTO portfolioItemDTO) {
-        PortfolioItemDTO res = portfolioItemService.updatePortfolioItem(item_id, portfolioItemDTO);
+    public ResponseEntity<PortfolioItemDTO> updatePortfolioItem(@RequestHeader("Authorization") String authToken, @PathVariable Long item_id, @Valid @RequestBody PortfolioItemDTO portfolioItemDTO) {
+        authToken = authToken.replace("Bearer ", "");
+        Long user_id = tokenProvider.getIdFromJwt(authToken);
+        PortfolioItemDTO res = portfolioItemService.updatePortfolioItem(user_id, item_id, portfolioItemDTO);
         if(res != null) {
             return ResponseEntity.ok().body(res);
         }
