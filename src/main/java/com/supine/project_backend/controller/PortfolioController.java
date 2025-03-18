@@ -2,6 +2,7 @@ package com.supine.project_backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,6 +61,24 @@ public class PortfolioController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/api/v1/portfolios/me/{item-id}")
+    public ResponseEntity<PortfolioDTO> deletePortfolioItem(@RequestHeader("Authorization") String authToken, @PathVariable Long item_id) {
+        authToken = authToken.replace("Bearer ", "");
+        Long user_id = tokenProvider.getIdFromJwt(authToken);
+        boolean isDeleted = portfolioService.deletePortfolioItem(user_id, item_id);
+        
+        if(isDeleted) {
+            return ResponseEntity.noContent().build();
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+        
+
 
     @PutMapping("/api/v1/portfolios/me")
     public ResponseEntity<PortfolioDTO> updatePortfolio(@RequestHeader("Authorization") String authToken, @Valid @RequestBody PortfolioDTO portfolioDTO) {

@@ -92,4 +92,24 @@ public class PortfolioService {
         p.getItems().add(newItem);
         return modelMapper.map(portfolioRepository.save(p), PortfolioDTO.class);
     }
+
+    public boolean deletePortfolioItem(Long user_id, Long item_id) {
+
+        Portfolio p = getPortfolioFromUserId(user_id);
+
+        if(p == null) {
+            return false;
+        }
+
+
+        for (int i = 0; i < p.getItems().size(); i++) {
+            if (p.getItems().get(i).getId() == item_id) {
+                p.getItems().remove(i);
+                portfolioRepository.save(p);
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

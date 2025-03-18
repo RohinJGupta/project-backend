@@ -31,17 +31,17 @@ public class PortfolioItemController {
     }
 
 
-    @DeleteMapping("/api/v1/items/{item-id}")
-    public ResponseEntity<Void> deletePortfolioItem(@PathVariable Long item_id) {
-        boolean isDeleted = portfolioItemService.deletePortfolioItem(item_id);
+    // @DeleteMapping("/api/v1/items/{item-id}")
+    // public ResponseEntity<Void> deletePortfolioItem(@PathVariable Long item_id) {
+    //     boolean isDeleted = portfolioItemService.deletePortfolioItem(item_id);
         
-        if(isDeleted) {
-            return ResponseEntity.noContent().build();
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
-    } 
+    //     if(isDeleted) {
+    //         return ResponseEntity.noContent().build();
+    //     }
+    //     else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // } 
 
     
     @PutMapping("/api/v1/items/{item-id}")
