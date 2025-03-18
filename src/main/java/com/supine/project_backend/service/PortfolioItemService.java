@@ -40,13 +40,13 @@ public class PortfolioItemService {
     }
 
     //change to portfolio
-    @Transactional
-    public boolean deletePortfolioItem(Long item_id) {
-        PortfolioItem portfolioItem = portfolioItemRepository.findById(item_id).orElse(null);
-        if (portfolioItem != null) {
-            portfolioItemRepository.delete(portfolioItem);
-            return true;
-        }
-        return false;
-    }
+    // @Transactional
+    // public boolean deletePortfolioItem(Long item_id) {
+    //     PortfolioItem portfolioItem = portfolioItemRepository.findById(item_id).orElse(null);
+    //     if (portfolioItem != null) {
+    //         portfolioItemRepository.delete(portfolioItem);
+    //         return true;
+    //     }
+    //     return false;
+    // }
 }
