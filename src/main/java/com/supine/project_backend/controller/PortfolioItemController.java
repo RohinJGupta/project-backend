@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.supine.project_backend.config.auth.TokenProvider;
 import com.supine.project_backend.dto.PortfolioItemDTO;
 import com.supine.project_backend.service.PortfolioItemService;
 
@@ -19,8 +21,11 @@ public class PortfolioItemController {
     @Autowired
     private PortfolioItemService portfolioItemService;
 
-    @GetMapping("/api/items/{item-id}")
-    public ResponseEntity<PortfolioItemDTO> getPortfolioItem(@PathVariable Long item_id) {
+    @Autowired
+    private TokenProvider tokenProvider;
+
+    @GetMapping("/api/v1/items/{item_id}")
+    public ResponseEntity<PortfolioItemDTO> getPortfolioItem(@Valid @PathVariable Long item_id) {
         PortfolioItemDTO res = portfolioItemService.getPortfolioItem(item_id);
         if(res != null) {
             return ResponseEntity.ok().body(res);
@@ -31,7 +36,7 @@ public class PortfolioItemController {
     }
 
 
-    @DeleteMapping("/api/items/{item-id}")
+    @DeleteMapping("/api/v1/items/{item_id}")
     public ResponseEntity<Void> deletePortfolioItem(@PathVariable Long item_id) {
         boolean isDeleted = portfolioItemService.deletePortfolioItem(item_id);
         
@@ -44,9 +49,11 @@ public class PortfolioItemController {
     } 
 
     
-    @PutMapping("/api/items/{item-id}")
-    public ResponseEntity<PortfolioItemDTO> updatePortfolioItem(@PathVariable Long item_id, @Valid @RequestBody PortfolioItemDTO portfolioItemDTO) {
-        PortfolioItemDTO res = portfolioItemService.updatePortfolioItem(item_id, portfolioItemDTO);
+    @PutMapping("/api/v1/items/me/{item_id}")
+    public ResponseEntity<PortfolioItemDTO> updatePortfolioItem(@RequestHeader("Authorization") String authToken, @PathVariable Long item_id, @Valid @RequestBody PortfolioItemDTO portfolioItemDTO) {
+        authToken = authToken.replace("Bearer ", "");
+        Long user_id = tokenProvider.getIdFromJwt(authToken);
+        PortfolioItemDTO res = portfolioItemService.updatePortfolioItem(user_id, item_id, portfolioItemDTO);
         if(res != null) {
             return ResponseEntity.ok().body(res);
         }

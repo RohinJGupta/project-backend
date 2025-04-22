@@ -2,6 +2,9 @@ package com.supine.project_backend.model;
 
 
 import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -17,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "vendors")
+@Getter @Setter @NoArgsConstructor
 public class Vendor {
 
     @Id
@@ -30,7 +34,7 @@ public class Vendor {
 
     @JsonBackReference
     @OneToOne(mappedBy = "vendor")
-    private Profile profile;
+    private User user;
 
     @Column(nullable = true)
     private String businessName;
@@ -68,8 +72,8 @@ public class Vendor {
         return portfolio;
     }
 
-    public Profile getProfile() {
-        return profile;
+    public User getUser() {
+        return user;
     }
     
     public String getBusinessName() {
@@ -119,8 +123,8 @@ public class Vendor {
         this.portfolio = portfolio;
     }
 
-    public void setProfile(Profile profile) {
-        this.profile = profile;
+    public void setUser(User user) {
+        this.user = user;
     }   
 
     public void setBusinessName(String businessName) {

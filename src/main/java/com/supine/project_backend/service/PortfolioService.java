@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import com.supine.project_backend.dto.PortfolioDTO;
 import com.supine.project_backend.dto.PortfolioItemDTO;
 import com.supine.project_backend.model.Portfolio;
-import com.supine.project_backend.model.Profile;
+import com.supine.project_backend.model.User;
 import com.supine.project_backend.repository.PortfolioRepository;
-import com.supine.project_backend.repository.ProfileRepository;
+import com.supine.project_backend.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -24,7 +24,7 @@ public class PortfolioService {
     private PortfolioRepository portfolioRepository;
 
     @Autowired
-    private ProfileRepository profileRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -34,30 +34,30 @@ public class PortfolioService {
         return portfolioRepository.save(portfolio);
     }
 
-    private Portfolio getPortfolioFromProfileId(Long profile_id) {
-        Profile existingProfile = profileRepository.findById(profile_id).orElse(null);
+    private Portfolio getPortfolioFromUserId(Long user_id) {
+        User existingUser = userRepository.findById(user_id).orElse(null);
 
-        if(existingProfile == null) {
+        if(existingUser == null) {
             return null;
         }
 
-        Portfolio existingPortfolio = portfolioRepository.findById(existingProfile.getVendor().getId()).orElse(null);
+        Portfolio existingPortfolio = portfolioRepository.findById(existingUser.getVendor().getId()).orElse(null);
         return existingPortfolio;
     }
 
-    public PortfolioDTO getPortfolio(Long profile_id) {
-        Profile existingProfile = profileRepository.findById(profile_id).orElse(null);
-        if (existingProfile == null) {
+    public PortfolioDTO getPortfolio(Long user_id) {
+        User existingUser = userRepository.findById(user_id).orElse(null);
+        if (existingUser == null) {
             return null;
         }
-        Portfolio existingPortfolio = existingProfile.getVendor().getPortfolio();
+        Portfolio existingPortfolio = existingUser.getVendor().getPortfolio();
         return modelMapper.map(existingPortfolio, PortfolioDTO.class);
     }
 
 
   
-    public List<PortfolioItemDTO> getAllItems(Long profile_id) {
-        Portfolio p = getPortfolioFromProfileId(profile_id);
+    public List<PortfolioItemDTO> getAllItems(Long user_id) {
+        Portfolio p = getPortfolioFromUserId(user_id);
         if(p == null) {
             return null;
         }
@@ -65,8 +65,8 @@ public class PortfolioService {
     }
   
 
-    public PortfolioDTO updatePortfolio(Long profile_id, PortfolioDTO newPortfolioDTO) {
-        Portfolio existingPortfolio = getPortfolioFromProfileId(profile_id);
+    public PortfolioDTO updatePortfolio(Long user_id, PortfolioDTO newPortfolioDTO) {
+        Portfolio existingPortfolio = getPortfolioFromUserId(user_id);
         if (existingPortfolio != null) {
             modelMapper.map(newPortfolioDTO, existingPortfolio);
             return modelMapper.map(portfolioRepository.save(existingPortfolio), PortfolioDTO.class);
@@ -74,9 +74,10 @@ public class PortfolioService {
         return null;
     }
 
-    public PortfolioDTO addPortfolioItem(Long profile_id, PortfolioItemDTO item) {
+    
+    public PortfolioItemDTO addPortfolioItem(Long user_id, PortfolioItemDTO item) {
 
-        Portfolio p = getPortfolioFromProfileId(profile_id);
+        Portfolio p = getPortfolioFromUserId(user_id);
 
         if(p == null) {
             return null;
@@ -89,6 +90,27 @@ public class PortfolioService {
 
         newItem.setPortfolio(p);
         p.getItems().add(newItem);
-        return modelMapper.map(portfolioRepository.save(p), PortfolioDTO.class);
+        modelMapper.map(portfolioRepository.save(p), PortfolioDTO.class);
+        return modelMapper.map(newItem, PortfolioItemDTO.class);
+    }
+
+    public boolean deletePortfolioItem(Long user_id, Long item_id) {
+
+        Portfolio p = getPortfolioFromUserId(user_id);
+
+        if(p == null) {
+            return false;
+        }
+
+
+        for (int i = 0; i < p.getItems().size(); i++) {
+            if (p.getItems().get(i).getId() == item_id) {
+                p.getItems().remove(i);
+                portfolioRepository.save(p);
+                return true;
+            }
+        }
+
+        return false;
     }
 }

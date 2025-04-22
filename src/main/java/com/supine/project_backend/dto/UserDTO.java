@@ -1,17 +1,22 @@
 package com.supine.project_backend.dto;
 
+import org.locationtech.jts.geom.Point;
 
+import lombok.Getter;
+import lombok.Setter;
 
-public class ProfileDTO {
+@Getter @Setter
+public class UserDTO {
 
     private Long id;
     private String phone;
     private String email;
-    private String passwordHash;
     private String firstName;
     private String lastName;
     private boolean isVerified;
     private boolean isProvider;
+    private boolean hasOboarded;
+    private Point location;
 
     // Getters and Setters
 
@@ -35,13 +40,6 @@ public class ProfileDTO {
         this.email = email;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
 
     public String getFirstName() {
         return firstName;

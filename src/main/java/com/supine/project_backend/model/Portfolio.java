@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.*;
 
@@ -18,6 +21,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "portfolios")
+@Getter @Setter @NoArgsConstructor
 public class Portfolio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
