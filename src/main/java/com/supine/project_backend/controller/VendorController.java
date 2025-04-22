@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import jakarta.validation.Valid;
 
 import com.supine.project_backend.config.auth.TokenProvider;
-import com.supine.project_backend.dto.UserDTO;
 import com.supine.project_backend.dto.VendorDTO;
 
 

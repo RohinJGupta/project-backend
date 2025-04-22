@@ -18,8 +18,6 @@ import jakarta.validation.Valid;
 import com.supine.project_backend.config.auth.TokenProvider;
 import com.supine.project_backend.dto.PortfolioDTO;
 import com.supine.project_backend.dto.PortfolioItemDTO;
-import com.supine.project_backend.dto.UserDTO;
-import com.supine.project_backend.dto.VendorDTO;
 
 import java.net.URI;
 import java.util.List;
