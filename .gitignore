@@ -37,7 +37,7 @@ build/
 Thumbs.db
 
 # Maven build files
-/.mvn/
+# /.mvn/
 /target/
 
 # Gradle build files (if using Gradle)
