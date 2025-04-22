@@ -49,13 +49,27 @@ public class PortfolioController {
         }
     }
 
-    @PostMapping("/api/v1/portfolios/me")
-    public ResponseEntity<PortfolioDTO> addPortfolioItem(@RequestHeader("Authorization") String authToken, @Valid @RequestBody PortfolioItemDTO portfolioItemDTO) {
+    @GetMapping("/api/v1/portfolios/all")
+    public ResponseEntity<List<PortfolioItemDTO>> getAllItems(@RequestHeader("Authorization") String authToken) {
+        //TODO - Along with other "me" APIs - Might only be Get
         authToken = authToken.replace("Bearer ", "");
         Long user_id = tokenProvider.getIdFromJwt(authToken);
-        PortfolioDTO portfolioDTO = portfolioService.addPortfolioItem(user_id, portfolioItemDTO);
-        if(portfolioDTO != null) {
-            return ResponseEntity.created(URI.create("/api/portfolios/" + user_id + "/items/" + portfolioDTO.getId())).body(portfolioDTO);
+        List<PortfolioItemDTO> res = portfolioService.getAllItems(user_id);
+        if(res != null) {
+            return ResponseEntity.ok().body(res);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/api/v1/portfolios/me")
+    public ResponseEntity<PortfolioItemDTO> addPortfolioItem(@RequestHeader("Authorization") String authToken, @Valid @RequestBody PortfolioItemDTO portfolioItemDTO) {
+        authToken = authToken.replace("Bearer ", "");
+        Long user_id = tokenProvider.getIdFromJwt(authToken);
+        PortfolioItemDTO pItemDTO = portfolioService.addPortfolioItem(user_id, portfolioItemDTO);
+        if(pItemDTO != null) {
+            return ResponseEntity.created(URI.create("/api/portfolios/" + user_id + "/items/" + pItemDTO.getId())).body(pItemDTO);
         }
         else {
             return ResponseEntity.notFound().build();

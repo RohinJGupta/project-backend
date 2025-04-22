@@ -39,7 +39,7 @@ public class PortfolioItemService {
         return modelMapper.map(portfolioItem, PortfolioItemDTO.class);
     }
 
-        private Portfolio getPortfolioFromUserId(Long user_id) {
+    private Portfolio getPortfolioFromUserId(Long user_id) {
         User existingUser = userRepository.findById(user_id).orElse(null);
 
         if(existingUser == null) {
@@ -53,24 +53,26 @@ public class PortfolioItemService {
     public PortfolioItemDTO updatePortfolioItem(Long user_id, Long item_id, PortfolioItemDTO newItemDTO) {
         Portfolio existingPortfolio = getPortfolioFromUserId(user_id);
         if (existingPortfolio == null) {
+            System.out.println("hi there 2");
             return null;
         }
         PortfolioItem existingPortfolioItem = portfolioItemRepository.findById(item_id).orElse(null);
         if (existingPortfolioItem == null || !existingPortfolio.getItems().contains(existingPortfolioItem)) {
+  
             return null;
         }
         modelMapper.map(newItemDTO, existingPortfolioItem);
         return modelMapper.map(portfolioItemRepository.save(existingPortfolioItem), PortfolioItemDTO.class);
     }
 
-    //change to portfolio
-    // @Transactional
-    // public boolean deletePortfolioItem(Long item_id) {
-    //     PortfolioItem portfolioItem = portfolioItemRepository.findById(item_id).orElse(null);
-    //     if (portfolioItem != null) {
-    //         portfolioItemRepository.delete(portfolioItem);
-    //         return true;
-    //     }
-    //     return false;
-    // }
+
+    @Transactional
+    public boolean deletePortfolioItem(Long item_id) {
+        PortfolioItem portfolioItem = portfolioItemRepository.findById(item_id).orElse(null);
+        if (portfolioItem != null) {
+            portfolioItemRepository.delete(portfolioItem);
+            return true;
+        }
+        return false;
+    }
 }

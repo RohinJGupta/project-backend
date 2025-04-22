@@ -75,7 +75,7 @@ public class PortfolioService {
     }
 
     
-    public PortfolioDTO addPortfolioItem(Long user_id, PortfolioItemDTO item) {
+    public PortfolioItemDTO addPortfolioItem(Long user_id, PortfolioItemDTO item) {
 
         Portfolio p = getPortfolioFromUserId(user_id);
 
@@ -90,7 +90,8 @@ public class PortfolioService {
 
         newItem.setPortfolio(p);
         p.getItems().add(newItem);
-        return modelMapper.map(portfolioRepository.save(p), PortfolioDTO.class);
+        modelMapper.map(portfolioRepository.save(p), PortfolioDTO.class);
+        return modelMapper.map(newItem, PortfolioItemDTO.class);
     }
 
     public boolean deletePortfolioItem(Long user_id, Long item_id) {
